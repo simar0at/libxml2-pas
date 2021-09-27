@@ -84,9 +84,7 @@ implementation
 uses
   SysUtils,
   Classes,
-  {$ifdef VER140} {delphi6}
     variants,
-  {$endif}
   ActiveX;
 
 type
@@ -1421,7 +1419,7 @@ var
   value : OleVariant;
 begin
   value := fMSDomNode.nodeValue;
-  if value = null then
+  if VarIsClear(value) then
     result := ''
   else
     result := value;
