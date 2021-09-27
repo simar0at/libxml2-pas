@@ -1,4 +1,4 @@
-// CVS-REV:libxslt/libxslt/security.h:1.1:
+// CVS-REV:libxslt-win-build/libxslt/security.h:1.1:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.
@@ -49,19 +49,19 @@ type
 (*
  * Module interfaces
  *)
-function  xsltNewSecurityPrefs: xsltSecurityPrefsPtr; cdecl; external LIBXSLT_SO;
-procedure xsltFreeSecurityPrefs(sec: xsltSecurityPrefsPtr); cdecl; external LIBXSLT_SO;
-function  xsltSetSecurityPrefs(sec: xsltSecurityPrefsPtr; option: xsltSecurityOption; func: xsltSecurityCheck): Longint; cdecl; external LIBXSLT_SO;
-function  xsltGetSecurityPrefs(sec: xsltSecurityPrefsPtr; option: xsltSecurityOption): xsltSecurityCheck; cdecl; external LIBXSLT_SO;
-procedure xsltSetDefaultSecurityPrefs(sec: xsltSecurityPrefsPtr); cdecl; external LIBXSLT_SO;
-function  xsltGetDefaultSecurityPrefs: xsltSecurityPrefsPtr; cdecl; external LIBXSLT_SO;
-function  xsltSetCtxtSecurityPrefs(sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr): Longint; cdecl; external LIBXSLT_SO;
-function  xsltSecurityAllow(sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr; value: Pchar): Longint; cdecl; external LIBXSLT_SO;
-function  xsltSecurityForbid(sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr; value: Pchar): Longint; cdecl; external LIBXSLT_SO;
+function  xsltNewSecurityPrefs: xsltSecurityPrefsPtr; cdecl; external libxslt-win-build_SO;
+procedure xsltFreeSecurityPrefs(sec: xsltSecurityPrefsPtr); cdecl; external libxslt-win-build_SO;
+function  xsltSetSecurityPrefs(sec: xsltSecurityPrefsPtr; option: xsltSecurityOption; func: xsltSecurityCheck): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltGetSecurityPrefs(sec: xsltSecurityPrefsPtr; option: xsltSecurityOption): xsltSecurityCheck; cdecl; external libxslt-win-build_SO;
+procedure xsltSetDefaultSecurityPrefs(sec: xsltSecurityPrefsPtr); cdecl; external libxslt-win-build_SO;
+function  xsltGetDefaultSecurityPrefs: xsltSecurityPrefsPtr; cdecl; external libxslt-win-build_SO;
+function  xsltSetCtxtSecurityPrefs(sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltSecurityAllow(sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr; value: Pchar): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltSecurityForbid(sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr; value: Pchar): Longint; cdecl; external libxslt-win-build_SO;
 
 (*
  * internal interfaces
  *)
-function  xsltCheckWrite(sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr; URL: PxmlChar): Longint; cdecl; external LIBXSLT_SO;
-function  xsltCheckRead(sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr; URL: PxmlChar): Longint; cdecl; external LIBXSLT_SO;
+function  xsltCheckWrite(sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr; URL: PxmlChar): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltCheckRead(sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr; URL: PxmlChar): Longint; cdecl; external libxslt-win-build_SO;
 

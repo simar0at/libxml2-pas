@@ -23,25 +23,25 @@
     }
 
   { 
-     LIBXSLT_DOTTED_VERSION:
+     libxslt-win-build_DOTTED_VERSION:
     
      the version string like "1.2.3"
     }
 
   const
-     LIBXSLT_DOTTED_VERSION = '1.0.7';
+     libxslt-win-build_DOTTED_VERSION = '1.0.7';
   { 
-     LIBXSLT_VERSION:
+     libxslt-win-build_VERSION:
     
      the version number: 1.2.3 value is 1002003
     }
-     LIBXSLT_VERSION = 10007;
+     libxslt-win-build_VERSION = 10007;
   { 
-     LIBXSLT_VERSION_STRING:
+     libxslt-win-build_VERSION_STRING:
     
      the version number string, 1.2.3 value is "1002003"
     }
-     LIBXSLT_VERSION_STRING = '10007';
+     libxslt-win-build_VERSION_STRING = '10007';
   { 
      WITH_XSLT_DEBUG:
     
@@ -56,7 +56,7 @@
   {
      DEBUG_MEMORY:
     
-     should be activated only when debugging libxslt. It replaces the
+     should be activated only when debugging libxslt-win-build. It replaces the
      allocator with a collect and debug shell to the libc allocator.
      Use configure --with-mem-debug to activate it on both library
     }
@@ -64,7 +64,7 @@
   { 
      DEBUG_MEMORY_LOCATION:
     
-     should be activated only when debugging libxslt.
+     should be activated only when debugging libxslt-win-build.
      DEBUG_MEMORY_LOCATION should be activated only when libxml has
      been configured with --with-debug-mem too
     }
@@ -79,7 +79,7 @@
 {$define ATTRIBUTE_UNUSED}
 {$endif}
   { 
-     LIBXSLT_PUBLIC:
+     libxslt-win-build_PUBLIC:
     
      This macro is needed on Win32 when using MSVC. It enables the client code
      to access exported variables. It should expand to nothing when compiling
@@ -87,24 +87,24 @@
      client includes the library header and that only if it links dynamically
      against this library.
     }
-{$if !defined LIBXSLT_PUBLIC}
-{$if defined _MSC_VER && !defined IN_LIBXSLT && !defined LIBXSLT_STATIC}
+{$if !defined libxslt-win-build_PUBLIC}
+{$if defined _MSC_VER && !defined IN_libxslt-win-build && !defined libxslt-win-build_STATIC}
     { was #define dname def_expr }
-    function LIBXSLT_PUBLIC : longint;
+    function libxslt-win-build_PUBLIC : longint;
       { return type might be wrong }
 
 {$else}
-{$define LIBXSLT_PUBLIC}
+{$define libxslt-win-build_PUBLIC}
 {$endif}
 {$endif}
 { C++ end of extern C conditionnal removed }
 {$endif}
   { __XML_XSLTWIN32CONFIG_H__  }
     { was #define dname def_expr }
-    function LIBXSLT_PUBLIC : longint;
+    function libxslt-win-build_PUBLIC : longint;
       { return type might be wrong }
       begin
-         LIBXSLT_PUBLIC:=__declspec(dllimport);
+         libxslt-win-build_PUBLIC:=__declspec(dllimport);
       end;
 
 

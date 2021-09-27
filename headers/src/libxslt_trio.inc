@@ -1,4 +1,4 @@
-// CVS-REV:libxslt/libxslt/trio.h:1.2:
+// CVS-REV:libxslt-win-build/libxslt/trio.h:1.2:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.
@@ -8,7 +8,7 @@
 
 (*
  *
- * $Id: libxslt_trio.inc,v 1.1 2003-08-21 14:08:30 pkozelka Exp $
+ * $Id: libxslt-win-build_trio.inc,v 1.1 2003-08-21 14:08:30 pkozelka Exp $
  *
  * Copyright (C) 1998 Bjorn Reese and Daniel Stenberg.
  *

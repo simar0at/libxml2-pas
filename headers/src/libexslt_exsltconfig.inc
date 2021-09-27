@@ -1,4 +1,4 @@
-// CVS-REV:libxslt/libexslt/exsltconfig.h.in:1.4:
+// CVS-REV:libxslt-win-build/libexslt/exsltconfig.h:1.4:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with some help of h2pas utility from the FreePascal project.

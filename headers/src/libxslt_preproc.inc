@@ -1,4 +1,4 @@
-// CVS-REV:libxslt/libxslt/preproc.h:1.6:
+// CVS-REV:libxslt-win-build/libxslt/preproc.h:1.6:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.
@@ -20,7 +20,7 @@
 {todo
 extern const xmlChar *xsltExtMarker;
 }
-function  xsltDocumentComp(style: xsltStylesheetPtr; inst: xmlNodePtr; transformfunction: xsltTransformFunction): xsltElemPreCompPtr; cdecl; external LIBXSLT_SO;
-procedure xsltStylePreCompute(style: xsltStylesheetPtr; inst: xmlNodePtr); cdecl; external LIBXSLT_SO;
-procedure xsltFreeStylePreComps(style: xsltStylesheetPtr); cdecl; external LIBXSLT_SO;
+function  xsltDocumentComp(style: xsltStylesheetPtr; inst: xmlNodePtr; transformfunction: xsltTransformFunction): xsltElemPreCompPtr; cdecl; external libxslt-win-build_SO;
+procedure xsltStylePreCompute(style: xsltStylesheetPtr; inst: xmlNodePtr); cdecl; external libxslt-win-build_SO;
+procedure xsltFreeStylePreComps(style: xsltStylesheetPtr); cdecl; external libxslt-win-build_SO;
 

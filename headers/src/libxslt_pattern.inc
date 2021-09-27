@@ -1,4 +1,4 @@
-// CVS-REV:libxslt/libxslt/pattern.h:1.16:
+// CVS-REV:libxslt-win-build/libxslt/pattern.h:1.16:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.
@@ -27,19 +27,19 @@ type
 (*
  * Pattern related interfaces.
  *)
-function  xsltCompilePattern(pattern: PxmlChar; doc: xmlDocPtr; node: xmlNodePtr): xsltCompMatchPtr; cdecl; external LIBXSLT_SO;
-procedure xsltFreeCompMatchList(comp: xsltCompMatchPtr); cdecl; external LIBXSLT_SO;
-function  xsltTestCompMatchList(ctxt: xsltTransformContextPtr; node: xmlNodePtr; comp: xsltCompMatchPtr): Longint; cdecl; external LIBXSLT_SO;
+function  xsltCompilePattern(pattern: PxmlChar; doc: xmlDocPtr; node: xmlNodePtr): xsltCompMatchPtr; cdecl; external libxslt-win-build_SO;
+procedure xsltFreeCompMatchList(comp: xsltCompMatchPtr); cdecl; external libxslt-win-build_SO;
+function  xsltTestCompMatchList(ctxt: xsltTransformContextPtr; node: xmlNodePtr; comp: xsltCompMatchPtr): Longint; cdecl; external libxslt-win-build_SO;
 
 (*
  * Template related interfaces.
  *)
-function  xsltAddTemplate(style: xsltStylesheetPtr; cur: xsltTemplatePtr; mode: PxmlChar; modeURI: PxmlChar): Longint; cdecl; external LIBXSLT_SO;
-function  xsltGetTemplate(ctxt: xsltTransformContextPtr; node: xmlNodePtr; style: xsltStylesheetPtr): xsltTemplatePtr; cdecl; external LIBXSLT_SO;
-procedure xsltFreeTemplateHashes(style: xsltStylesheetPtr); cdecl; external LIBXSLT_SO;
-procedure xsltCleanupTemplates(style: xsltStylesheetPtr); cdecl; external LIBXSLT_SO;
+function  xsltAddTemplate(style: xsltStylesheetPtr; cur: xsltTemplatePtr; mode: PxmlChar; modeURI: PxmlChar): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltGetTemplate(ctxt: xsltTransformContextPtr; node: xmlNodePtr; style: xsltStylesheetPtr): xsltTemplatePtr; cdecl; external libxslt-win-build_SO;
+procedure xsltFreeTemplateHashes(style: xsltStylesheetPtr); cdecl; external libxslt-win-build_SO;
+procedure xsltCleanupTemplates(style: xsltStylesheetPtr); cdecl; external libxslt-win-build_SO;
 
 {$IFDEF ALWAYS_FALSE}
-function  xsltMatchPattern(ctxt: xsltTransformContextPtr; node: xmlNodePtr; pattern: PxmlChar): Longint; cdecl; external LIBXSLT_SO;
+function  xsltMatchPattern(ctxt: xsltTransformContextPtr; node: xmlNodePtr; pattern: PxmlChar): Longint; cdecl; external libxslt-win-build_SO;
 {$ENDIF}
 

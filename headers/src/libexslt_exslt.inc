@@ -1,4 +1,4 @@
-// CVS-REV:libxslt/libexslt/exslt.h:1.12:
+// CVS-REV:libxslt-win-build/libexslt/exslt.h:1.12:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with some help of h2pas utility from the FreePascal project.
@@ -9,7 +9,7 @@
 {
 LIBEXSLT_PUBLIC extern const char *exsltLibraryVersion;
 LIBEXSLT_PUBLIC extern const int exsltLibexsltVersion;
-LIBEXSLT_PUBLIC extern const int exsltLibxsltVersion;
+LIBEXSLT_PUBLIC extern const int exsltlibxslt-win-buildVersion;
 LIBEXSLT_PUBLIC extern const int exsltLibxmlVersion;
 }
 const

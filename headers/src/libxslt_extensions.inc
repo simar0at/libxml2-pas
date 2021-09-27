@@ -1,4 +1,4 @@
-// CVS-REV:libxslt/libxslt/extensions.h:1.14:
+// CVS-REV:libxslt-win-build/libxslt/extensions.h:1.14:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.
@@ -61,22 +61,22 @@ type
    *)
   xsltExtShutdownFunction = function (ctxt: xsltTransformContextPtr; URI: PxmlChar; data: Pointer): Pointer; cdecl;
 
-function  xsltRegisterExtModule(URI: PxmlChar; initFunc: xsltExtInitFunction; shutdownFunc: xsltExtShutdownFunction): Longint; cdecl; external LIBXSLT_SO;
-function  xsltRegisterExtModuleFull(URI: PxmlChar; initFunc: xsltExtInitFunction; shutdownFunc: xsltExtShutdownFunction; styleInitFunc: xsltStyleExtInitFunction; styleShutdownFunc: xsltStyleExtShutdownFunction): Longint; cdecl; external LIBXSLT_SO;
-function  xsltUnregisterExtModule(URI: PxmlChar): Longint; cdecl; external LIBXSLT_SO;
-function  xsltGetExtData(ctxt: xsltTransformContextPtr; URI: PxmlChar): Pointer; cdecl; external LIBXSLT_SO;
-function  xsltStyleGetExtData(style: xsltStylesheetPtr; URI: PxmlChar): Pointer; cdecl; external LIBXSLT_SO;
-procedure xsltShutdownCtxtExts(ctxt: xsltTransformContextPtr); cdecl; external LIBXSLT_SO;
-procedure xsltShutdownExts(style: xsltStylesheetPtr); cdecl; external LIBXSLT_SO;
-function  xsltXPathGetTransformContext(ctxt: xmlXPathParserContextPtr): xsltTransformContextPtr; cdecl; external LIBXSLT_SO;
+function  xsltRegisterExtModule(URI: PxmlChar; initFunc: xsltExtInitFunction; shutdownFunc: xsltExtShutdownFunction): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltRegisterExtModuleFull(URI: PxmlChar; initFunc: xsltExtInitFunction; shutdownFunc: xsltExtShutdownFunction; styleInitFunc: xsltStyleExtInitFunction; styleShutdownFunc: xsltStyleExtShutdownFunction): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltUnregisterExtModule(URI: PxmlChar): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltGetExtData(ctxt: xsltTransformContextPtr; URI: PxmlChar): Pointer; cdecl; external libxslt-win-build_SO;
+function  xsltStyleGetExtData(style: xsltStylesheetPtr; URI: PxmlChar): Pointer; cdecl; external libxslt-win-build_SO;
+procedure xsltShutdownCtxtExts(ctxt: xsltTransformContextPtr); cdecl; external libxslt-win-build_SO;
+procedure xsltShutdownExts(style: xsltStylesheetPtr); cdecl; external libxslt-win-build_SO;
+function  xsltXPathGetTransformContext(ctxt: xmlXPathParserContextPtr): xsltTransformContextPtr; cdecl; external libxslt-win-build_SO;
 
 (*
  * extension functions
  *)
-function  xsltRegisterExtModuleFunction(name: PxmlChar; URI: PxmlChar; function_: xmlXPathFunction): Longint; cdecl; external LIBXSLT_SO;
-function  xsltExtFunctionLookup(ctxt: xsltTransformContextPtr; name: PxmlChar; URI: PxmlChar): xmlXPathFunction; cdecl; external LIBXSLT_SO;
-function  xsltExtModuleFunctionLookup(name: PxmlChar; URI: PxmlChar): xmlXPathFunction; cdecl; external LIBXSLT_SO;
-function  xsltUnregisterExtModuleFunction(name: PxmlChar; URI: PxmlChar): Longint; cdecl; external LIBXSLT_SO;
+function  xsltRegisterExtModuleFunction(name: PxmlChar; URI: PxmlChar; function_: xmlXPathFunction): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltExtFunctionLookup(ctxt: xsltTransformContextPtr; name: PxmlChar; URI: PxmlChar): xmlXPathFunction; cdecl; external libxslt-win-build_SO;
+function  xsltExtModuleFunctionLookup(name: PxmlChar; URI: PxmlChar): xmlXPathFunction; cdecl; external libxslt-win-build_SO;
+function  xsltUnregisterExtModuleFunction(name: PxmlChar; URI: PxmlChar): Longint; cdecl; external libxslt-win-build_SO;
 
 (*
  * extension elements
@@ -84,13 +84,13 @@ function  xsltUnregisterExtModuleFunction(name: PxmlChar; URI: PxmlChar): Longin
 type
   xsltPreComputeFunction = function (style: xsltStylesheetPtr;inst: xmlNodePtr; aFunction: xsltTransformFunction): xsltElemPreCompPtr; cdecl;
 
-function  xsltNewElemPreComp(style: xsltStylesheetPtr; inst: xmlNodePtr; transformfunction: xsltTransformFunction): xsltElemPreCompPtr; cdecl; external LIBXSLT_SO;
-procedure xsltInitElemPreComp(comp: xsltElemPreCompPtr; style: xsltStylesheetPtr; inst: xmlNodePtr; function_: xsltTransformFunction; freeFunc: xsltElemPreCompDeallocator); cdecl; external LIBXSLT_SO;
-function  xsltRegisterExtModuleElement(name: PxmlChar; URI: PxmlChar; precomp: xsltPreComputeFunction; transform: xsltTransformFunction): Longint; cdecl; external LIBXSLT_SO;
-function  xsltExtElementLookup(ctxt: xsltTransformContextPtr; name: PxmlChar; URI: PxmlChar): xsltTransformFunction; cdecl; external LIBXSLT_SO;
-function  xsltExtModuleElementLookup(name: PxmlChar; URI: PxmlChar): xsltTransformFunction; cdecl; external LIBXSLT_SO;
-function  xsltExtModuleElementPreComputeLookup(name: PxmlChar; URI: PxmlChar): xsltPreComputeFunction; cdecl; external LIBXSLT_SO;
-function  xsltUnregisterExtModuleElement(name: PxmlChar; URI: PxmlChar): Longint; cdecl; external LIBXSLT_SO;
+function  xsltNewElemPreComp(style: xsltStylesheetPtr; inst: xmlNodePtr; transformfunction: xsltTransformFunction): xsltElemPreCompPtr; cdecl; external libxslt-win-build_SO;
+procedure xsltInitElemPreComp(comp: xsltElemPreCompPtr; style: xsltStylesheetPtr; inst: xmlNodePtr; function_: xsltTransformFunction; freeFunc: xsltElemPreCompDeallocator); cdecl; external libxslt-win-build_SO;
+function  xsltRegisterExtModuleElement(name: PxmlChar; URI: PxmlChar; precomp: xsltPreComputeFunction; transform: xsltTransformFunction): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltExtElementLookup(ctxt: xsltTransformContextPtr; name: PxmlChar; URI: PxmlChar): xsltTransformFunction; cdecl; external libxslt-win-build_SO;
+function  xsltExtModuleElementLookup(name: PxmlChar; URI: PxmlChar): xsltTransformFunction; cdecl; external libxslt-win-build_SO;
+function  xsltExtModuleElementPreComputeLookup(name: PxmlChar; URI: PxmlChar): xsltPreComputeFunction; cdecl; external libxslt-win-build_SO;
+function  xsltUnregisterExtModuleElement(name: PxmlChar; URI: PxmlChar): Longint; cdecl; external libxslt-win-build_SO;
 
 (*
  * top-level elements
@@ -98,34 +98,34 @@ function  xsltUnregisterExtModuleElement(name: PxmlChar; URI: PxmlChar): Longint
 type
   xsltTopLevelFunction = procedure (style: xsltStylesheetPtr;inst: xmlNodePtr); cdecl;
 
-function  xsltRegisterExtModuleTopLevel(name: PxmlChar; URI: PxmlChar; function_: xsltTopLevelFunction): Longint; cdecl; external LIBXSLT_SO;
-function  xsltExtModuleTopLevelLookup(name: PxmlChar; URI: PxmlChar): xsltTopLevelFunction; cdecl; external LIBXSLT_SO;
-function  xsltUnregisterExtModuleTopLevel(name: PxmlChar; URI: PxmlChar): Longint; cdecl; external LIBXSLT_SO;
+function  xsltRegisterExtModuleTopLevel(name: PxmlChar; URI: PxmlChar; function_: xsltTopLevelFunction): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltExtModuleTopLevelLookup(name: PxmlChar; URI: PxmlChar): xsltTopLevelFunction; cdecl; external libxslt-win-build_SO;
+function  xsltUnregisterExtModuleTopLevel(name: PxmlChar; URI: PxmlChar): Longint; cdecl; external libxslt-win-build_SO;
 
 (* These 2 functions are deprecated for use within modules *)
-function  xsltRegisterExtFunction(ctxt: xsltTransformContextPtr; name: PxmlChar; URI: PxmlChar; function_: xmlXPathFunction): Longint; cdecl; external LIBXSLT_SO; {$IFDEF HAS_DEPR} deprecated; {$ENDIF}
-function  xsltRegisterExtElement(ctxt: xsltTransformContextPtr; name: PxmlChar; URI: PxmlChar; function_: xsltTransformFunction): Longint; cdecl; external LIBXSLT_SO; {$IFDEF HAS_DEPR} deprecated; {$ENDIF}
+function  xsltRegisterExtFunction(ctxt: xsltTransformContextPtr; name: PxmlChar; URI: PxmlChar; function_: xmlXPathFunction): Longint; cdecl; external libxslt-win-build_SO; {$IFDEF HAS_DEPR} deprecated; {$ENDIF}
+function  xsltRegisterExtElement(ctxt: xsltTransformContextPtr; name: PxmlChar; URI: PxmlChar; function_: xsltTransformFunction): Longint; cdecl; external libxslt-win-build_SO; {$IFDEF HAS_DEPR} deprecated; {$ENDIF}
 
 (*
  * Extension Prefix handling API.
  * Those are used by the XSLT (pre)processor.
  *)
-function  xsltRegisterExtPrefix(style: xsltStylesheetPtr; prefix: PxmlChar; URI: PxmlChar): Longint; cdecl; external LIBXSLT_SO;
-function  xsltCheckExtPrefix(style: xsltStylesheetPtr; prefix: PxmlChar): Longint; cdecl; external LIBXSLT_SO;
-function  xsltInitCtxtExts(ctxt: xsltTransformContextPtr): Longint; cdecl; external LIBXSLT_SO;
-procedure xsltFreeCtxtExts(ctxt: xsltTransformContextPtr); cdecl; external LIBXSLT_SO;
-procedure xsltFreeExts(style: xsltStylesheetPtr); cdecl; external LIBXSLT_SO;
-function  xsltPreComputeExtModuleElement(style: xsltStylesheetPtr; inst: xmlNodePtr): xsltElemPreCompPtr; cdecl; external LIBXSLT_SO;
+function  xsltRegisterExtPrefix(style: xsltStylesheetPtr; prefix: PxmlChar; URI: PxmlChar): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltCheckExtPrefix(style: xsltStylesheetPtr; prefix: PxmlChar): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltInitCtxtExts(ctxt: xsltTransformContextPtr): Longint; cdecl; external libxslt-win-build_SO;
+procedure xsltFreeCtxtExts(ctxt: xsltTransformContextPtr); cdecl; external libxslt-win-build_SO;
+procedure xsltFreeExts(style: xsltStylesheetPtr); cdecl; external libxslt-win-build_SO;
+function  xsltPreComputeExtModuleElement(style: xsltStylesheetPtr; inst: xmlNodePtr): xsltElemPreCompPtr; cdecl; external libxslt-win-build_SO;
 
 (*
  * Extension Infos access.
  * Used by exslt initialisation
  *)
-function xsltGetExtInfo(style: xsltStylesheetPtr; URI: PxmlChar): xmlHashTablePtr; cdecl; external LIBXSLT_SO;
+function xsltGetExtInfo(style: xsltStylesheetPtr; URI: PxmlChar): xmlHashTablePtr; cdecl; external libxslt-win-build_SO;
  
 (**
  * Test module http: //xmlsoft.org/XSLT/
  *)
-procedure xsltRegisterTestModule; cdecl; external LIBXSLT_SO;
-procedure xsltDebugDumpExtensions(output: PLibXml2File); cdecl; external LIBXSLT_SO;
+procedure xsltRegisterTestModule; cdecl; external libxslt-win-build_SO;
+procedure xsltDebugDumpExtensions(output: PLibXml2File); cdecl; external libxslt-win-build_SO;
 

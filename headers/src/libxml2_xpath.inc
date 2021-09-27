@@ -1,4 +1,4 @@
-// CVS-REV:gnome-xml/include/libxml/xpath.h:1.55:
+// CVS-REV:libxml2-win-build/include/libxml/xpath.h:1.55:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.

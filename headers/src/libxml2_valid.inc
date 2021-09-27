@@ -1,4 +1,4 @@
-// CVS-REV:gnome-xml/include/libxml/valid.h:1.42:
+// CVS-REV:libxml2-win-build/include/libxml/valid.h:1.42:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.

@@ -1,4 +1,4 @@
-// CVS-REV:gnome-xml/include/libxml/xmlerror.h:1.12:
+// CVS-REV:libxml2-win-build/include/libxml/xmlerror.h:1.12:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.

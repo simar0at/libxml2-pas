@@ -1,4 +1,4 @@
-// CVS-REV:libxslt/libxslt/triodef.h:1.3:
+// CVS-REV:libxslt-win-build/libxslt/triodef.h:1.3:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.
@@ -8,7 +8,7 @@
 
 (*
  *
- * $Id: libxslt_triodef.inc,v 1.1 2003-08-21 14:08:30 pkozelka Exp $
+ * $Id: libxslt-win-build_triodef.inc,v 1.1 2003-08-21 14:08:30 pkozelka Exp $
  *
  * Copyright (C) 2001 Bjorn Reese <breese@users.sourceforge.net>
  *

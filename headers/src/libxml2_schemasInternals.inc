@@ -1,4 +1,4 @@
-// CVS-REV:gnome-xml/include/libxml/schemasInternals.h:1.10:
+// CVS-REV:libxml2-win-build/include/libxml/schemasInternals.h:1.10:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.

@@ -1,4 +1,4 @@
-// CVS-REV:libxslt/libxslt/functions.h:1.13:
+// CVS-REV:libxslt-win-build/libxslt/functions.h:1.13:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.
@@ -27,22 +27,22 @@
 	(void *)(ctxt->xpathCtxt));
 }
 
-function xsltXPathFunctionLookup(ctxt: xmlXPathContextPtr; name: PxmlChar; ns_uri: PxmlChar): xmlXPathFunction; cdecl; external LIBXSLT_SO;
+function xsltXPathFunctionLookup(ctxt: xmlXPathContextPtr; name: PxmlChar; ns_uri: PxmlChar): xmlXPathFunction; cdecl; external libxslt-win-build_SO;
 
 (*
  * Interfaces for the functions implementations.
  *)
-procedure xsltDocumentFunction(ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external LIBXSLT_SO;
-procedure xsltKeyFunction(ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external LIBXSLT_SO;
-procedure xsltUnparsedEntityURIFunction(ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external LIBXSLT_SO;
-procedure xsltFormatNumberFunction(ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external LIBXSLT_SO;
-procedure xsltGenerateIdFunction(ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external LIBXSLT_SO;
-procedure xsltSystemPropertyFunction(ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external LIBXSLT_SO;
-procedure xsltElementAvailableFunction(ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external LIBXSLT_SO;
-procedure xsltFunctionAvailableFunction(ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external LIBXSLT_SO;
+procedure xsltDocumentFunction(ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external libxslt-win-build_SO;
+procedure xsltKeyFunction(ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external libxslt-win-build_SO;
+procedure xsltUnparsedEntityURIFunction(ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external libxslt-win-build_SO;
+procedure xsltFormatNumberFunction(ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external libxslt-win-build_SO;
+procedure xsltGenerateIdFunction(ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external libxslt-win-build_SO;
+procedure xsltSystemPropertyFunction(ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external libxslt-win-build_SO;
+procedure xsltElementAvailableFunction(ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external libxslt-win-build_SO;
+procedure xsltFunctionAvailableFunction(ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external libxslt-win-build_SO;
 
 (*
  * And the registration
  *)
-procedure xsltRegisterAllFunctions(ctxt: xmlXPathContextPtr); cdecl; external LIBXSLT_SO;
+procedure xsltRegisterAllFunctions(ctxt: xmlXPathContextPtr); cdecl; external libxslt-win-build_SO;
 

@@ -1,4 +1,4 @@
-// CVS-REV:libxslt/libxslt/xslt.h:1.15:
+// CVS-REV:libxslt-win-build/libxslt/xslt.h:1.15:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.
@@ -26,7 +26,7 @@ const
    *
    * The XSLT "vendor" string for this processor.
    *)
-  XSLT_DEFAULT_VENDOR = 'libxslt';
+  XSLT_DEFAULT_VENDOR = 'libxslt-win-build';
 
   (**
    * XSLT_DEFAULT_URL:
@@ -43,16 +43,16 @@ const
   XSLT_NAMESPACE = 'http://www.w3.org/1999/XSL/Transform';
 
   (**
-   * LIBXSLT_PUBLIC:
+   * libxslt-win-build_PUBLIC:
    *
    * Macro used on Windows to tag public identifiers from shared libraries.
    *)
 {-macro-
-  #if !defined LIBXSLT_PUBLIC
-  #if (defined (__CYGWIN__) || defined _MSC_VER) && !defined IN_LIBXSLT && !defined LIBXSLT_STATIC
-  #define LIBXSLT_PUBLIC __declspec(dllimport)
+  #if !defined libxslt-win-build_PUBLIC
+  #if (defined (__CYGWIN__) || defined _MSC_VER) && !defined IN_libxslt-win-build && !defined libxslt-win-build_STATIC
+  #define libxslt-win-build_PUBLIC __declspec(dllimport)
   #else
-  #define LIBXSLT_PUBLIC
+  #define libxslt-win-build_PUBLIC
   #endif
   #endif
 }
@@ -61,31 +61,31 @@ const
    *
    * This value is used to detect templates loops.
    *)
-//  LIBXSLT_PUBLIC extern int xsltMaxDepth;
+//  libxslt-win-build_PUBLIC extern int xsltMaxDepth;
 
   (**
    * xsltEngineVersion:
    *
-   * The version string for libxslt.
+   * The version string for libxslt-win-build.
    *)
-//  LIBXSLT_PUBLIC extern const char *xsltEngineVersion;
+//  libxslt-win-build_PUBLIC extern const char *xsltEngineVersion;
 
   (**
-   * xsltLibxsltVersion:
+   * xsltlibxslt-win-buildVersion:
    *
-   * The version of libxslt compiled.
+   * The version of libxslt-win-build compiled.
    *)
-//  LIBXSLT_PUBLIC extern const int xsltLibxsltVersion;
+//  libxslt-win-build_PUBLIC extern const int xsltlibxslt-win-buildVersion;
 
   (**
    * xsltLibxmlVersion:
    *
-   * The version of libxml libxslt was compiled against.
+   * The version of libxml libxslt-win-build was compiled against.
    *)
-//  LIBXSLT_PUBLIC extern const int xsltLibxmlVersion;
+//  libxslt-win-build_PUBLIC extern const int xsltLibxmlVersion;
 
 (*
  * Global cleanup function.
  *)
-procedure xsltCleanupGlobals; cdecl; external LIBXSLT_SO;
+procedure xsltCleanupGlobals; cdecl; external libxslt-win-build_SO;
 

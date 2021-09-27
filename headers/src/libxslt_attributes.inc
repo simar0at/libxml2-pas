@@ -1,4 +1,4 @@
-// CVS-REV:libxslt/libxslt/attributes.h:1.4:
+// CVS-REV:libxslt-win-build/libxslt/attributes.h:1.4:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.
@@ -14,8 +14,8 @@
  * daniel@veillard.com
  *)
 
-procedure xsltParseStylesheetAttributeSet(style: xsltStylesheetPtr; cur: xmlNodePtr); cdecl; external LIBXSLT_SO;
-procedure xsltFreeAttributeSetsHashes(style: xsltStylesheetPtr); cdecl; external LIBXSLT_SO;
-procedure xsltApplyAttributeSet(ctxt: xsltTransformContextPtr; node: xmlNodePtr; inst: xmlNodePtr; attributes: PxmlChar); cdecl; external LIBXSLT_SO;
-procedure xsltResolveStylesheetAttributeSet(style: xsltStylesheetPtr); cdecl; external LIBXSLT_SO;
+procedure xsltParseStylesheetAttributeSet(style: xsltStylesheetPtr; cur: xmlNodePtr); cdecl; external libxslt-win-build_SO;
+procedure xsltFreeAttributeSetsHashes(style: xsltStylesheetPtr); cdecl; external libxslt-win-build_SO;
+procedure xsltApplyAttributeSet(ctxt: xsltTransformContextPtr; node: xmlNodePtr; inst: xmlNodePtr; attributes: PxmlChar); cdecl; external libxslt-win-build_SO;
+procedure xsltResolveStylesheetAttributeSet(style: xsltStylesheetPtr); cdecl; external libxslt-win-build_SO;
 

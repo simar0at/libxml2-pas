@@ -1,4 +1,4 @@
-// CVS-REV:libxslt/libxslt/extra.h:1.12:
+// CVS-REV:libxslt-win-build/libxslt/extra.h:1.12:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.
@@ -16,11 +16,11 @@
 
 const
   (**
-   * XSLT_LIBXSLT_NAMESPACE:
+   * XSLT_libxslt-win-build_NAMESPACE:
    *
-   * This is the libxslt namespace for specific extensions.
+   * This is the libxslt-win-build namespace for specific extensions.
    *)
-  XSLT_LIBXSLT_NAMESPACE = 'http://xmlsoft.org/XSLT/namespace';
+  XSLT_libxslt-win-build_NAMESPACE = 'http://xmlsoft.org/XSLT/namespace';
 
   (**
    * XSLT_SAXON_NAMESPACE:
@@ -50,9 +50,9 @@ const
    *)
   XSLT_NORM_SAXON_NAMESPACE = 'http://nwalsh.com/xslt/ext/com.nwalsh.saxon.CVS';
 
-procedure xsltFunctionNodeSet(ctxt: xmlXPathParserContextPtr; nargs: longint); cdecl; external LIBXSLT_SO;
-procedure xsltDebug(ctxt: xsltTransformContextPtr; node:xmlNodePtr; inst: xmlNodePtr; comp: xsltStylePreCompPtr); cdecl; external LIBXSLT_SO;
-procedure xsltRegisterExtras(ctxt: xsltTransformContextPtr); cdecl; external LIBXSLT_SO;
-procedure xsltRegisterAllExtras; cdecl; external LIBXSLT_SO;
+procedure xsltFunctionNodeSet(ctxt: xmlXPathParserContextPtr; nargs: longint); cdecl; external libxslt-win-build_SO;
+procedure xsltDebug(ctxt: xsltTransformContextPtr; node:xmlNodePtr; inst: xmlNodePtr; comp: xsltStylePreCompPtr); cdecl; external libxslt-win-build_SO;
+procedure xsltRegisterExtras(ctxt: xsltTransformContextPtr); cdecl; external libxslt-win-build_SO;
+procedure xsltRegisterAllExtras; cdecl; external libxslt-win-build_SO;
 
 

@@ -18,18 +18,20 @@ function toPascal()
 	local aFileName=$1
 	local aOutputFile=${2?'output file not specified'}
 	local aSOPrefix=${3?'SO prefix not specified'}
+    
+    sed -e 's:[A-Z]\+\(CALL\|PUBFUN\)::g' -e 's:[A-Z]\+PUBVAR:extern :g' $aFileName > ${aFileName%.h}.hpp 
 
 	if [ "$H2PAS" != "" ] ; then
 		echo "---------------- [$aFileName] -----------------" >>$TMP/h2pas.log
 		# translate
 		echo "Translating ${aFileName/#*\/} to ${aOutputFile/#*\/}.1"
-		h2pas -d -c -i $aFileName -o $aOutputFile.1 1>&2 >>$TMP/h2pas.log
+		h2pas -d -c -i ${aFileName%.h}.hpp -o $aOutputFile.1 1>&2 >>$TMP/h2pas.log
 
 		# apply known replacements
 		echo "  applying additional conversions --> ${aOutputFile/#*\/}"
 		sed -f "$LIBXML2_PAS/headers/utils/afterconv.sed" $aOutputFile.1 > $aOutputFile.2 || mv $aOutputFile.1 $aOutputFile.2 
 		local pfx=`echo ${aSOPrefix} | tr [:lower:] [:upper:]`
-		sed 's:UNKNOWN_SO:'${pfx}'_SO:' $aOutputFile.2 > $aOutputFile
+		sed -e 's:UNKNOWN_SO:'${pfx}'_SO:' -e 's:^{\*:(*:' $aOutputFile.2 > $aOutputFile
 
 		# compare original translation and the one with replacements
 #		diff -u4 -w $aOutputFile.1 $aOutputFile >$aOutputFile.diff12
@@ -43,7 +45,11 @@ function getCvsRevision()
 	local dirName=${aFileName%/*}
 	local entry=${aFileName:${#dirName}+1}
 
-	sed -n '/^\/'$entry'\//{s:^/'$entry'/\([^/]*\)/.*:\1:;p;}' $dirName/CVS/Entries
+    pushd $dirName
+    local rev=$(git describe --tags $(git log -n 1 --pretty=format:%H -- include/libxml/catalog.h))
+    popd
+    echo $rev
+#	sed -n '/^\/'$entry'\//{s:^/'$entry'/\([^/]*\)/.*:\1:;p;}' $dirName/CVS/Entries
 }
 
 function cacheGet()
@@ -187,12 +193,12 @@ done
 
 # prepare list of files that do not use CVS SIGN and should not be reported as unconverted
 cat >$TMP/ignoredFiles <<EOF
-gnome-xml/include/libxml/xmlversion.h
-libxslt/libexslt/exsltconfig.h
-libxslt/libexslt/libexslt.h
-libxslt/libxslt/libxslt.h
-libxslt/libxslt/win32config.h
-libxslt/libxslt/xsltconfig.h
+libxml2-win-build/include/libxml/xmlversion.h
+libxslt-win-build/libexslt/exsltconfig.h
+libxslt-win-build/libexslt/libexslt.h
+libxslt-win-build/libxslt/libxslt.h
+libxslt-win-build/libxslt/win32config.h
+libxslt-win-build/libxslt/xsltconfig.h
 EOF
 
 # find unconverted header files

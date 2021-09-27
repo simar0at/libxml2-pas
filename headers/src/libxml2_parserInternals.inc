@@ -1,4 +1,4 @@
-// CVS-REV:gnome-xml/include/libxml/parserInternals.h:1.51:
+// CVS-REV:libxml2-win-build/include/libxml/parserInternals.h:1.51:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.

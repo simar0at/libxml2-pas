@@ -1,4 +1,4 @@
-// CVS-REV:gnome-xml/include/libxml/threads.h:1.4:
+// CVS-REV:libxml2-win-build/include/libxml/threads.h:1.4:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.

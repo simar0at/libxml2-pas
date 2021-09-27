@@ -1,4 +1,4 @@
-// CVS-REV:gnome-xml/include/libxml/HTMLtree.h:1.24:
+// CVS-REV:libxml2-win-build/include/libxml/HTMLtree.h:1.24:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.

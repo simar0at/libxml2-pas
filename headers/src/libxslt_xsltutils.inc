@@ -1,4 +1,4 @@
-// CVS-REV:libxslt/libxslt/xsltutils.h:1.35:
+// CVS-REV:libxslt-win-build/libxslt/xsltutils.h:1.35:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.
@@ -85,59 +85,59 @@
 (*
  * Our own version of namespaced atributes lookup.
  *)
-function xsltGetNsProp(node: xmlNodePtr; const name, namespace: PxmlChar): PxmlChar; cdecl; external LIBXSLT_SO;
-function xsltGetUTF8Char(utf: PChar; len: PLongint): PxmlChar; cdecl; external LIBXSLT_SO;
+function xsltGetNsProp(node: xmlNodePtr; const name, namespace: PxmlChar): PxmlChar; cdecl; external libxslt-win-build_SO;
+function xsltGetUTF8Char(utf: PChar; len: PLongint): PxmlChar; cdecl; external libxslt-win-build_SO;
 
 (*
  * XSLT specific error and debug reporting functions.
  *)
 {todo
-LIBXSLT_PUBLIC extern xmlGenericErrorFunc xsltGenericError;
-LIBXSLT_PUBLIC extern void *xsltGenericErrorContext;
-LIBXSLT_PUBLIC extern xmlGenericErrorFunc xsltGenericDebug;
-LIBXSLT_PUBLIC extern void *xsltGenericDebugContext;
+libxslt-win-build_PUBLIC extern xmlGenericErrorFunc xsltGenericError;
+libxslt-win-build_PUBLIC extern void *xsltGenericErrorContext;
+libxslt-win-build_PUBLIC extern xmlGenericErrorFunc xsltGenericDebug;
+libxslt-win-build_PUBLIC extern void *xsltGenericDebugContext;
 }
-procedure xsltPrintErrorContext(ctxt: xsltTransformContextPtr; style: xsltStylesheetPtr; node: xmlNodePtr); cdecl; external LIBXSLT_SO;
-procedure xsltMessage(ctxt: xsltTransformContextPtr; node: xmlNodePtr; inst: xmlNodePtr); cdecl; external LIBXSLT_SO;
-procedure xsltSetGenericErrorFunc(ctx: Pointer; handler: xmlGenericErrorFunc); cdecl; external LIBXSLT_SO;
-procedure xsltSetGenericDebugFunc(ctx: Pointer; handler: xmlGenericErrorFunc); cdecl; external LIBXSLT_SO;
-procedure xsltSetTransformErrorFunc(ctxt: xsltTransformContextPtr; ctx: Pointer; handler: xmlGenericErrorFunc); cdecl; external LIBXSLT_SO;
+procedure xsltPrintErrorContext(ctxt: xsltTransformContextPtr; style: xsltStylesheetPtr; node: xmlNodePtr); cdecl; external libxslt-win-build_SO;
+procedure xsltMessage(ctxt: xsltTransformContextPtr; node: xmlNodePtr; inst: xmlNodePtr); cdecl; external libxslt-win-build_SO;
+procedure xsltSetGenericErrorFunc(ctx: Pointer; handler: xmlGenericErrorFunc); cdecl; external libxslt-win-build_SO;
+procedure xsltSetGenericDebugFunc(ctx: Pointer; handler: xmlGenericErrorFunc); cdecl; external libxslt-win-build_SO;
+procedure xsltSetTransformErrorFunc(ctxt: xsltTransformContextPtr; ctx: Pointer; handler: xmlGenericErrorFunc); cdecl; external libxslt-win-build_SO;
 procedure xsltTransformError(ctxt: xsltTransformContextPtr; style: xsltStylesheetPtr; node: xmlNodePtr; msg: PChar); cdecl; {$IFDEF HAS_VA} varargs; {$ENDIF} external LIBXML2_SO;
 
 (*
  * Sorting.
  *)
-procedure xsltDocumentSortFunction(list: xmlNodeSetPtr); cdecl; external LIBXSLT_SO;
-//procedure xsltDoSortFunction(ctxt: xsltTransformContextPtr; sorts: PxmlNodePtr; nbsorts: Longint); cdecl; external LIBXSLT_SO;
+procedure xsltDocumentSortFunction(list: xmlNodeSetPtr); cdecl; external libxslt-win-build_SO;
+//procedure xsltDoSortFunction(ctxt: xsltTransformContextPtr; sorts: PxmlNodePtr; nbsorts: Longint); cdecl; external libxslt-win-build_SO;
 
-procedure xsltSetSortFunc(handler: xsltSortFunc); cdecl; external LIBXSLT_SO;
-procedure xsltSetCtxtSortFunc(ctxt: xsltTransformContextPtr; handler: xsltSortFunc); cdecl; external LIBXSLT_SO;
-procedure xsltDefaultSortFunction(ctxt: xsltTransformContextPtr; sorts: PxmlNodePtr; nbsorts: Longint); cdecl; external LIBXSLT_SO;
-procedure xsltDoSortFunction(ctxt: xsltTransformContextPtr; sorts: PxmlNodePtr; nbsorts: Longint); cdecl; external LIBXSLT_SO;
-function  xsltComputeSortResult(ctxt: xsltTransformContextPtr; sort: xmlNodePtr): PxmlXPathObjectPtr; cdecl; external LIBXSLT_SO;
+procedure xsltSetSortFunc(handler: xsltSortFunc); cdecl; external libxslt-win-build_SO;
+procedure xsltSetCtxtSortFunc(ctxt: xsltTransformContextPtr; handler: xsltSortFunc); cdecl; external libxslt-win-build_SO;
+procedure xsltDefaultSortFunction(ctxt: xsltTransformContextPtr; sorts: PxmlNodePtr; nbsorts: Longint); cdecl; external libxslt-win-build_SO;
+procedure xsltDoSortFunction(ctxt: xsltTransformContextPtr; sorts: PxmlNodePtr; nbsorts: Longint); cdecl; external libxslt-win-build_SO;
+function  xsltComputeSortResult(ctxt: xsltTransformContextPtr; sort: xmlNodePtr): PxmlXPathObjectPtr; cdecl; external libxslt-win-build_SO;
 
 (*
  * QNames handling.
  *)
-function xsltGetQNameURI(node: xmlNodePtr; name: PPxmlChar): PxmlChar; cdecl; external LIBXSLT_SO;
+function xsltGetQNameURI(node: xmlNodePtr; name: PPxmlChar): PxmlChar; cdecl; external libxslt-win-build_SO;
 
 (*
  * Output, reuse libxml I/O buffers.
  *)
-function  xsltSaveResultTo(buf: xmlOutputBufferPtr; result: xmlDocPtr; style: xsltStylesheetPtr): Longint; cdecl; external LIBXSLT_SO;
-function  xsltSaveResultToFilename(URI: Pchar; result: xmlDocPtr; style: xsltStylesheetPtr; compression: Longint): Longint; cdecl; external LIBXSLT_SO;
-function  xsltSaveResultToFile(var file_: TextFile; result: xmlDocPtr; style: xsltStylesheetPtr): Longint; cdecl; external LIBXSLT_SO;
-function  xsltSaveResultToFd(fd: Longint; result: xmlDocPtr; style: xsltStylesheetPtr): Longint; cdecl; external LIBXSLT_SO;
-function  xsltSaveResultToString(doc_txt_ptr: PPxmlChar; doc_txt_len: PLongint; result: xmlDocPtr; style: xsltStylesheetPtr): Longint; cdecl; external LIBXSLT_SO;
+function  xsltSaveResultTo(buf: xmlOutputBufferPtr; result: xmlDocPtr; style: xsltStylesheetPtr): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltSaveResultToFilename(URI: Pchar; result: xmlDocPtr; style: xsltStylesheetPtr; compression: Longint): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltSaveResultToFile(var file_: TextFile; result: xmlDocPtr; style: xsltStylesheetPtr): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltSaveResultToFd(fd: Longint; result: xmlDocPtr; style: xsltStylesheetPtr): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltSaveResultToString(doc_txt_ptr: PPxmlChar; doc_txt_len: PLongint; result: xmlDocPtr; style: xsltStylesheetPtr): Longint; cdecl; external libxslt-win-build_SO;
 
 (*
  * Profiling.
  *)
-procedure xsltSaveProfiling(ctxt: xsltTransformContextPtr; output: PLibXml2File); cdecl; external LIBXSLT_SO;
-function  xsltGetProfileInformation(ctxt: xsltTransformContextPtr): xmlDocPtr; cdecl; external LIBXSLT_SO;
+procedure xsltSaveProfiling(ctxt: xsltTransformContextPtr; output: PLibXml2File); cdecl; external libxslt-win-build_SO;
+function  xsltGetProfileInformation(ctxt: xsltTransformContextPtr): xmlDocPtr; cdecl; external libxslt-win-build_SO;
 
-function  xsltTimestamp: Longint; cdecl; external LIBXSLT_SO;
-procedure xsltCalibrateAdjust(delta: Longint); cdecl; external LIBXSLT_SO;
+function  xsltTimestamp: Longint; cdecl; external libxslt-win-build_SO;
+procedure xsltCalibrateAdjust(delta: Longint); cdecl; external libxslt-win-build_SO;
 
 const
   (**
@@ -164,13 +164,13 @@ const
   XSLT_DEBUG_RUN_RESTART  = 8;
   XSLT_DEBUG_QUIT         = 9;
 
-//[pk] LIBXSLT_PUBLIC extern int xslDebugStatus;
+//[pk] libxslt-win-build_PUBLIC extern int xslDebugStatus;
 type
   xsltHandleDebuggerCallback = procedure(cur, node: xmlNodePtr; templ: xsltTemplatePtr; ctxt: xsltTransformContextPtr); cdecl;
   xsltAddCallCallback = function(templ: xsltTemplatePtr; source: xmlNodePtr): Longint; cdecl;
   xsltDropCallCallback = procedure;
 
-function  xsltSetDebuggerCallbacks(no: Longint; block: Pointer): Longint; cdecl; external LIBXSLT_SO;
-function  xslAddCall(templ: xsltTemplatePtr; source: xmlNodePtr): Longint; cdecl; external LIBXSLT_SO;
-procedure xslDropCall; cdecl; external LIBXSLT_SO;
+function  xsltSetDebuggerCallbacks(no: Longint; block: Pointer): Longint; cdecl; external libxslt-win-build_SO;
+function  xslAddCall(templ: xsltTemplatePtr; source: xmlNodePtr): Longint; cdecl; external libxslt-win-build_SO;
+procedure xslDropCall; cdecl; external libxslt-win-build_SO;
 

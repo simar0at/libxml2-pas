@@ -1,4 +1,4 @@
-// CVS-REV:libxslt/libxslt/imports.h:1.7:
+// CVS-REV:libxslt-win-build/libxslt/imports.h:1.7:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.
@@ -45,10 +45,10 @@
 (*
  * Module interfaces
  *)
-function  xsltParseStylesheetImport(style: xsltStylesheetPtr; cur: xmlNodePtr): Longint; cdecl; external LIBXSLT_SO;
-function  xsltParseStylesheetInclude(style: xsltStylesheetPtr; cur: xmlNodePtr): Longint; cdecl; external LIBXSLT_SO;
-function  xsltNextImport(style: xsltStylesheetPtr): xsltStylesheetPtr; cdecl; external LIBXSLT_SO;
-function  xsltNeedElemSpaceHandling(ctxt: xsltTransformContextPtr): Longint; cdecl; external LIBXSLT_SO;
-function  xsltFindElemSpaceHandling(ctxt: xsltTransformContextPtr; node: xmlNodePtr): Longint; cdecl; external LIBXSLT_SO;
-function  xsltFindTemplate(ctxt: xsltTransformContextPtr; name: PxmlChar; nameURI: PxmlChar): xsltTemplatePtr; cdecl; external LIBXSLT_SO;
+function  xsltParseStylesheetImport(style: xsltStylesheetPtr; cur: xmlNodePtr): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltParseStylesheetInclude(style: xsltStylesheetPtr; cur: xmlNodePtr): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltNextImport(style: xsltStylesheetPtr): xsltStylesheetPtr; cdecl; external libxslt-win-build_SO;
+function  xsltNeedElemSpaceHandling(ctxt: xsltTransformContextPtr): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltFindElemSpaceHandling(ctxt: xsltTransformContextPtr; node: xmlNodePtr): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltFindTemplate(ctxt: xsltTransformContextPtr; name: PxmlChar; nameURI: PxmlChar): xsltTemplatePtr; cdecl; external libxslt-win-build_SO;
 

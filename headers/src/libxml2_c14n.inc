@@ -1,4 +1,4 @@
-// CVS-REV:gnome-xml/include/libxml/c14n.h:1.2:
+// CVS-REV:libxml2-win-build/include/libxml/c14n.h:1.2:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.

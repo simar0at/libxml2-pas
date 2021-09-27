@@ -1,4 +1,4 @@
-// CVS-REV:gnome-xml/include/libxml/xmlIO.h:1.41:
+// CVS-REV:libxml2-win-build/include/libxml/xmlIO.h:1.41:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.

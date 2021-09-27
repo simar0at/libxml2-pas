@@ -1,4 +1,4 @@
-// CVS-REV:gnome-xml/include/libxml/catalog.h:1.20:
+// CVS-REV:libxml2-win-build/include/libxml/catalog.h:1.20:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.

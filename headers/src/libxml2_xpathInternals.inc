@@ -1,4 +1,4 @@
-// CVS-REV:gnome-xml/include/libxml/xpathInternals.h:1.34:
+// CVS-REV:libxml2-win-build/include/libxml/xpathInternals.h:1.34:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.

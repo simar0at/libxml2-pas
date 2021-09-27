@@ -1,4 +1,4 @@
-// CVS-REV:gnome-xml/include/libxml/uri.h:1.15:
+// CVS-REV:libxml2-win-build/include/libxml/uri.h:1.15:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.

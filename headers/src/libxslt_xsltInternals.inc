@@ -1,4 +1,4 @@
-// CVS-REV:libxslt/libxslt/xsltInternals.h:1.78:
+// CVS-REV:libxslt-win-build/libxslt/xsltInternals.h:1.78:
 {
   ------------------------------------------------------------------------------
   Translated into pascal with help of h2pas utility from the FreePascal project.
@@ -474,27 +474,27 @@ type
 xsltDecimalFormatPtr	xsltDecimalFormatGetByName(xsltStylesheetPtr sheet,
 						   xmlChar *name);
  *)
-function  xsltNewStylesheet: xsltStylesheetPtr; cdecl; external LIBXSLT_SO;
-function  xsltParseStylesheetFile(filename: PxmlChar): xsltStylesheetPtr; cdecl; external LIBXSLT_SO;
-procedure xsltFreeStylesheet(sheet: xsltStylesheetPtr); cdecl; external LIBXSLT_SO;
-function  xsltIsBlank(str: PxmlChar): Longint; cdecl; external LIBXSLT_SO;
-procedure xsltFreeStackElemList(elem: xsltStackElemPtr); cdecl; external LIBXSLT_SO;
-function  xsltDecimalFormatGetByName(sheet: xsltStylesheetPtr; name: PxmlChar): xsltDecimalFormatPtr; cdecl; external LIBXSLT_SO;
-function  xsltParseStylesheetProcess(ret: xsltStylesheetPtr; doc: xmlDocPtr): xsltStylesheetPtr; cdecl; external LIBXSLT_SO;
-procedure xsltParseStylesheetOutput(style: xsltStylesheetPtr; cur: xmlNodePtr); cdecl; external LIBXSLT_SO;
-function  xsltParseStylesheetDoc(doc: xmlDocPtr): xsltStylesheetPtr; cdecl; external LIBXSLT_SO;
-function xsltParseStylesheetImportedDoc(doc: xmlDocPtr): xsltStylesheetPtr; cdecl; external LIBXSLT_SO;
-function  xsltLoadStylesheetPI(doc: xmlDocPtr): xsltStylesheetPtr; cdecl; external LIBXSLT_SO;
-procedure xsltNumberFormat(ctxt: xsltTransformContextPtr; data: xsltNumberDataPtr; node: xmlNodePtr); cdecl; external LIBXSLT_SO;
-function  xsltFormatNumberConversion(self: xsltDecimalFormatPtr; format: PxmlChar; number: double; result: PPxmlChar): TxmlXPathError; cdecl; external LIBXSLT_SO;
-procedure xsltParseTemplateContent(style: xsltStylesheetPtr; templ: xmlNodePtr); cdecl; external LIBXSLT_SO;
-function  xsltAllocateExtra(style: xsltStylesheetPtr): Longint; cdecl; external LIBXSLT_SO;
-function  xsltAllocateExtraCtxt	(ctxt: xsltTransformContextPtr): Longint; cdecl; external LIBXSLT_SO;
+function  xsltNewStylesheet: xsltStylesheetPtr; cdecl; external libxslt-win-build_SO;
+function  xsltParseStylesheetFile(filename: PxmlChar): xsltStylesheetPtr; cdecl; external libxslt-win-build_SO;
+procedure xsltFreeStylesheet(sheet: xsltStylesheetPtr); cdecl; external libxslt-win-build_SO;
+function  xsltIsBlank(str: PxmlChar): Longint; cdecl; external libxslt-win-build_SO;
+procedure xsltFreeStackElemList(elem: xsltStackElemPtr); cdecl; external libxslt-win-build_SO;
+function  xsltDecimalFormatGetByName(sheet: xsltStylesheetPtr; name: PxmlChar): xsltDecimalFormatPtr; cdecl; external libxslt-win-build_SO;
+function  xsltParseStylesheetProcess(ret: xsltStylesheetPtr; doc: xmlDocPtr): xsltStylesheetPtr; cdecl; external libxslt-win-build_SO;
+procedure xsltParseStylesheetOutput(style: xsltStylesheetPtr; cur: xmlNodePtr); cdecl; external libxslt-win-build_SO;
+function  xsltParseStylesheetDoc(doc: xmlDocPtr): xsltStylesheetPtr; cdecl; external libxslt-win-build_SO;
+function xsltParseStylesheetImportedDoc(doc: xmlDocPtr): xsltStylesheetPtr; cdecl; external libxslt-win-build_SO;
+function  xsltLoadStylesheetPI(doc: xmlDocPtr): xsltStylesheetPtr; cdecl; external libxslt-win-build_SO;
+procedure xsltNumberFormat(ctxt: xsltTransformContextPtr; data: xsltNumberDataPtr; node: xmlNodePtr); cdecl; external libxslt-win-build_SO;
+function  xsltFormatNumberConversion(self: xsltDecimalFormatPtr; format: PxmlChar; number: double; result: PPxmlChar): TxmlXPathError; cdecl; external libxslt-win-build_SO;
+procedure xsltParseTemplateContent(style: xsltStylesheetPtr; templ: xmlNodePtr); cdecl; external libxslt-win-build_SO;
+function  xsltAllocateExtra(style: xsltStylesheetPtr): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltAllocateExtraCtxt	(ctxt: xsltTransformContextPtr): Longint; cdecl; external libxslt-win-build_SO;
 
 (*
  * Extra functions for Result Value Trees
  *)
-function  xsltCreateRVT(ctxt: xsltTransformContextPtr): xmlDocPtr; cdecl; external LIBXSLT_SO;
-function  xsltRegisterTmpRVT(ctxt: xsltTransformContextPtr; RVT: xmlDocPtr): Longint; cdecl; external LIBXSLT_SO;
-function  xsltRegisterPersistRVT(ctxt: xsltTransformContextPtr; RVT: xmlDocPtr): Longint; cdecl; external LIBXSLT_SO;
-procedure xsltFreeRVTs(ctxt: xsltTransformContextPtr); cdecl; external LIBXSLT_SO;
+function  xsltCreateRVT(ctxt: xsltTransformContextPtr): xmlDocPtr; cdecl; external libxslt-win-build_SO;
+function  xsltRegisterTmpRVT(ctxt: xsltTransformContextPtr; RVT: xmlDocPtr): Longint; cdecl; external libxslt-win-build_SO;
+function  xsltRegisterPersistRVT(ctxt: xsltTransformContextPtr; RVT: xmlDocPtr): Longint; cdecl; external libxslt-win-build_SO;
+procedure xsltFreeRVTs(ctxt: xsltTransformContextPtr); cdecl; external libxslt-win-build_SO;
