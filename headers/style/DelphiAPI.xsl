@@ -24,7 +24,10 @@
   15 December 2004 - Eric Zurcher - CSIRO Livestock Industries
 -->
 <xsl:stylesheet version="1.0" 
-  xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"  
+  xmlns:str="http://exslt.org/strings">
+<xsl:import href="str.tokenize.template.xsl"/>
+
 <xsl:output method="text" encoding="UTF-8"/>
 
 <xsl:param name="unit">libxml2</xsl:param>
@@ -325,6 +328,8 @@ end.
   <xsl:value-of select="@name"/>
   <xsl:text> = record</xsl:text>
   <xsl:for-each select="field">
+    <!-- ICU is not used in most of the setups -->
+    <xsl:if test="@type != 'uconv_t *'">
     <xsl:text>
           </xsl:text>
     <xsl:call-template name="FixupVarName">
@@ -350,12 +355,15 @@ end.
     </xsl:choose>  
     <xsl:text>;</xsl:text>
     <xsl:apply-templates select="@info"/>
+    </xsl:if>
   </xsl:for-each>
   <xsl:text>
       end;
 
 </xsl:text>
 </xsl:template>
+<!-- ICU is not used in most of the setups-->
+<xsl:template match="struct[@name='uconv_t']"/>
 
 <!--
   Handles the declaration of pointer types.
@@ -371,6 +379,15 @@ end.
 </xsl:text>
   </xsl:if>
 </xsl:template>
+  
+ <xsl:template match="typedef[@type = 'void *']" mode="PtrTypes">
+      <xsl:text>       </xsl:text>
+      <xsl:value-of select="@name"/>
+      <xsl:text> = </xsl:text>
+      <xsl:text>Pointer</xsl:text>
+      <xsl:text>;
+</xsl:text>    
+ </xsl:template>
 
 <!--
   Handles both enumerated types and declaration of non-pointer types
@@ -478,7 +495,7 @@ var
 var
   </xsl:text>
       <xsl:value-of select="@name"/>
-      <xsl:text>: PChar;</xsl:text>
+      <xsl:text>: PAnsiChar;</xsl:text>
     </xsl:when>
     <xsl:otherwise>
       <xsl:text>
@@ -605,7 +622,7 @@ end;
         </xsl:call-template>
       </xsl:when>
       <xsl:when test="contains(@type, '[]')">
-        <xsl:text>PChar</xsl:text>
+        <xsl:text>PAnsiChar</xsl:text>
       </xsl:when>
       <xsl:otherwise>
         <xsl:call-template name="FixupVarType">
@@ -627,8 +644,28 @@ end;
 -->
 <xsl:template match="@info">
   <xsl:text> {</xsl:text>
-  <xsl:value-of select="."/>
+  <xsl:call-template name="ReAddNewLines">
+    <xsl:with-param name="text" select="."/>
+  </xsl:call-template>
   <xsl:text>}</xsl:text>
+</xsl:template>
+  
+<xsl:template name="ReAddNewLines">
+  <xsl:param name="text"/>
+  <xsl:choose>
+    <xsl:when test="contains(., '*')">
+      <xsl:variable name="commentLines">
+        <xsl:call-template name="str:tokenize">
+          <xsl:with-param name="string" select="."/>
+          <xsl:with-param name="delimiters" select="'*'"/>
+        </xsl:call-template>
+      </xsl:variable>
+      <xsl:for-each select="$commentLines/*">
+ *<xsl:value-of select="."/>
+      </xsl:for-each>
+    </xsl:when>
+    <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 <xsl:template name="WriteLibName">
@@ -816,10 +853,10 @@ end;
       <xsl:text>Byte</xsl:text>
     </xsl:when>
     <xsl:when test="$text='char *'">
-      <xsl:text>PChar</xsl:text>
+      <xsl:text>PAnsiChar</xsl:text>
     </xsl:when>
     <xsl:when test="$text='char const *'">
-      <xsl:text>PChar</xsl:text>
+      <xsl:text>PAnsiChar</xsl:text>
     </xsl:when>
     <xsl:when test="$text='unsigned char *'">
       <xsl:text>PByte</xsl:text>
@@ -831,10 +868,10 @@ end;
       <xsl:text>PCardinal</xsl:text>
     </xsl:when>
     <xsl:when test="$text='char **'">
-      <xsl:text>PPChar</xsl:text>
+      <xsl:text>PPAnsiChar</xsl:text>
     </xsl:when>
     <xsl:when test="$text='char * *'">
-      <xsl:text>PPChar</xsl:text>
+      <xsl:text>PPAnsiChar</xsl:text>
     </xsl:when>
     <xsl:when test="$text='xmlChar *'">
       <xsl:text>xmlCharPtr</xsl:text>
