@@ -279,7 +279,7 @@ type
      * @Raises EDomException
      *)
     function createDocument(
-            const namespaceURI  : DomString;
+            const aNamespaceURI  : DomString;
             const qualifiedName : DomString;
             docType             : IDomDocumentType) : IDomDocument;
   end;
@@ -446,8 +446,8 @@ type
      * @Raises EDomException
      *)
     function  getNamedItemNS(
-            const namespaceURI : DomString;
-            const localName    : DomString) : IDomNode;
+            const aNamespaceURI : DomString;
+            const aLocalName    : DomString) : IDomNode;
 
     (*
      * @Param Arg [in]
@@ -461,8 +461,8 @@ type
      * @Raises EDomException
      *)
     function  removeNamedItemNS(
-            const namespaceURI : DomString;
-            const localName    : DomString) : IDomNode;
+            const aNamespaceURI : DomString;
+            const aLocalName    : DomString) : IDomNode;
 
     {properties}
     property item[index : Integer] : IDomNode read get_Item; default;
@@ -616,8 +616,8 @@ type
      * @Param LocalName [in]
      *)
     function  getAttributeNS(
-            const namespaceURI : DomString;
-            const localName    : DomString) : DomString;
+            const aNamespaceURI : DomString;
+            const aLocalName    : DomString) : DomString;
 
     (*
      * @Param NamespaceURI [in]
@@ -626,7 +626,7 @@ type
      * @Raises EDomException
      *)
     procedure setAttributeNS(
-            const namespaceURI  : DomString;
+            const aNamespaceURI  : DomString;
             const qualifiedName : DomString;
             const value         : DomString);
 
@@ -636,15 +636,15 @@ type
      * @Raises EDomException
      *)
     procedure removeAttributeNS(
-            const namespaceURI : DomString;
-            const localName    : DomString);
+            const aNamespaceURI : DomString;
+            const aLocalName    : DomString);
     (*
      * @Param NamespaceURI [in]
      * @Param LocalName [in]
      *)
     function  getAttributeNodeNS(
-            const namespaceURI : DomString;
-            const localName    : DomString) : IDomAttr;
+            const aNamespaceURI : DomString;
+            const aLocalName    : DomString) : IDomAttr;
 
     (*
      * @Param NewAttr [in]
@@ -657,8 +657,8 @@ type
      * @Param LocalName [in]
      *)
     function  getElementsByTagNameNS(
-            const namespaceURI : DomString;
-            const localName    : DomString) : IDomNodeList;
+            const aNamespaceURI : DomString;
+            const aLocalName    : DomString) : IDomNodeList;
 
     (*
      * @Param Name [in]
@@ -670,8 +670,8 @@ type
      * @Param LocalName [in]
      *)
     function  hasAttributeNS(
-            const namespaceURI : DomString;
-            const localName    : DomString) : Boolean;
+            const aNamespaceURI : DomString;
+            const aLocalName    : DomString) : Boolean;
 
     {properties}
     property tagName : DomString  read get_TagName;
@@ -849,7 +849,7 @@ type
      * @Raises EDomException
      *)
     function  createElementNS(
-            const namespaceURI  : DomString;
+            const aNamespaceURI  : DomString;
             const qualifiedName : DomString) : IDomElement;
 
     (*
@@ -858,7 +858,7 @@ type
      * @Raises EDomException
      *)
     function  createAttributeNS(
-            const namespaceURI  : DomString;
+            const aNamespaceURI  : DomString;
             const qualifiedName : DomString) : IDomAttr;
 
     (*
@@ -867,8 +867,8 @@ type
      * @Raises EDomException
      *)
     function  getElementsByTagNameNS(
-            const namespaceURI : DomString;
-            const localName    : DomString) : IDomNodeList; //FE
+            const aNamespaceURI : DomString;
+            const aLocalName    : DomString) : IDomNodeList; //FE
 
     (*
      * @Param ElementId [in]
