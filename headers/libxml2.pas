@@ -19,7 +19,13 @@ const
   XML_DETECT_IDS = 2;
   XML_COMPLETE_ATTRS = 4;
   XML_SKIP_IDS = 8;
-  
+  (**
+   * XML_DEFAULT_VERSION:
+   *
+   * The default version of XML used: 1.0
+   *)
+  XML_DEFAULT_VERSION = '1.0';
+
 type
 
 
@@ -3108,7 +3114,7 @@ substitution group affiliation}
   function xmlDocDump (f: PFILE; cur: xmlDocPtr) : Longint; cdecl; external LIBXML2_SO;
   procedure xmlDocDumpFormatMemory (cur: xmlDocPtr; mem: xmlCharPtrPtr; size: PInteger; format: Longint); cdecl; external LIBXML2_SO;
   procedure xmlDocDumpFormatMemoryEnc (out_doc: xmlDocPtr; doc_txt_ptr: xmlCharPtrPtr; doc_txt_len: PInteger; const txt_encoding: PAnsiChar; format: Longint); cdecl; external LIBXML2_SO;
-  procedure xmlDocDumpMemory (cur: xmlDocPtr; mem: xmlCharPtrPtr; size: PInteger); cdecl; external LIBXML2_SO;
+  procedure xmlDocDumpMemory (cur: xmlDocPtr; out mem: PxmlChar; out size: Integer); cdecl; external LIBXML2_SO;
   procedure xmlDocDumpMemoryEnc (out_doc: xmlDocPtr; doc_txt_ptr: xmlCharPtrPtr; doc_txt_len: PInteger; const txt_encoding: PAnsiChar); cdecl; external LIBXML2_SO;
   function xmlDocFormatDump (f: PFILE; cur: xmlDocPtr; format: Longint) : Longint; cdecl; external LIBXML2_SO;
   function xmlDocGetRootElement (const doc: xmlDocPtr) : xmlNodePtr; cdecl; external LIBXML2_SO;
