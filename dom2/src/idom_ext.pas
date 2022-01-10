@@ -125,6 +125,31 @@ type
     procedure set_text(const Value: DomString);
   end;
 
+  { IDomNodeCompare }
+
+  // this interfaces implements the dom3 method IsSameNode
+  // it is neccessary to use it with libxml2, because there can be
+  // several interfaces pointing to the same node
+
+  IDomNodeCompare = interface
+    ['{ED63440C-6A94-4267-89A9-E093247F10F8}']
+    function IsSameNode(node: IDomNode): boolean;
+  end;  
+
+  {IDomDebug}
+
+  // this interface enables it, to get the count of currently existing documents
+  // for debugging purposes
+
+  IDomDebug = interface
+  ['{D5DE14B0-C454-4E75-B6CE-4E8C07FAC9BA}']
+    { Property Acessors }
+    function get_doccount: integer;
+    procedure set_doccount(doccount: integer);
+    { Properties }
+    property doccount: integer read get_doccount write set_doccount;
+  end;
+
 implementation
 
 end.
