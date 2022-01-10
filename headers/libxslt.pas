@@ -13,7 +13,7 @@ const
 {$IFDEF WIN32}
   LIBXSLT_SO = 'libxslt.dll';
 {$ELSE}
-  LIBXSLT_SO = 'libxslt.so';
+  LIBXSLT_SO = 'libxslt';
 {$ENDIF}
 
 type
@@ -948,6 +948,7 @@ exits}
   function xsltGetXIncludeDefault () : Longint; cdecl; external LIBXSLT_SO;
   procedure xsltIf (ctxt: xsltTransformContextPtr; contextNode: xmlNodePtr; inst: xmlNodePtr; castedComp: xsltStylePreCompPtr); cdecl; external LIBXSLT_SO;
   procedure xsltInit (); cdecl; external LIBXSLT_SO;
+  procedure xsltInitGlobals (); cdecl; external LIBXSLT_SO;
   function xsltInitAllDocKeys (ctxt: xsltTransformContextPtr) : Longint; cdecl; external LIBXSLT_SO;
   function xsltInitCtxtExts (ctxt: xsltTransformContextPtr) : Longint; cdecl; external LIBXSLT_SO;
   function xsltInitCtxtKey (ctxt: xsltTransformContextPtr; idoc: xsltDocumentPtr; keyDef: xsltKeyDefPtr) : Longint; cdecl; external LIBXSLT_SO;
@@ -969,7 +970,8 @@ exits}
   function xsltNewSecurityPrefs () : xsltSecurityPrefsPtr; cdecl; external LIBXSLT_SO;
   function xsltNewStyleDocument (style: xsltStylesheetPtr; doc: xmlDocPtr) : xsltDocumentPtr; cdecl; external LIBXSLT_SO;
   function xsltNewStylesheet () : xsltStylesheetPtr; cdecl; external LIBXSLT_SO;
-  function xsltNewTransformContext (style: xsltStylesheetPtr; doc: xmlDocPtr) : xsltTransformContextPtr; cdecl; external LIBXSLT_SO;
+  function __xsltNewTransformContext (style: xsltStylesheetPtr; doc: xmlDocPtr) : xsltTransformContextPtr; cdecl; external LIBXSLT_SO name 'xsltNewTransformContext';
+  function xsltNewTransformContext (style: xsltStylesheetPtr; doc: xmlDocPtr) : xsltTransformContextPtr;
   function xsltNextImport (cur: xsltStylesheetPtr) : xsltStylesheetPtr; cdecl; external LIBXSLT_SO;
   procedure xsltNormalizeCompSteps (payload: Pointer; data: Pointer; const name: xmlCharPtr); cdecl; external LIBXSLT_SO;
   procedure xsltNumber (ctxt: xsltTransformContextPtr; node: xmlNodePtr; inst: xmlNodePtr; castedComp: xsltStylePreCompPtr); cdecl; external LIBXSLT_SO;
@@ -1073,7 +1075,7 @@ var
   __xslDebugStatus: PInteger;
 var
   __xsltDocDefaultLoader: xsltDocLoaderFuncPtr;
-  function xsltEngineVersion(): PChar; cdecl;
+  function xsltEngineVersion(): PChar;
 var
   __xsltGenericDebug: xmlGenericErrorFuncPtr;
 var
@@ -1082,8 +1084,8 @@ var
   __xsltGenericError: xmlGenericErrorFuncPtr;
 var
   __xsltGenericErrorContext: PPointer;
-  function xsltLibxmlVersion(): Longint; cdecl;
-  function xsltLibxsltVersion(): Longint; cdecl;
+  function xsltLibxmlVersion(): Longint;
+  function xsltLibxsltVersion(): Longint;
 var
   __xsltMaxDepth: PInteger;
 
@@ -1096,7 +1098,7 @@ uses
 {$IFDEF WIN32}
   Windows,
 {$ENDIF}
-  SysUtils;
+  SysUtils, math;
 
 var
   libHandle: THandle;
@@ -1134,6 +1136,18 @@ function xsltLibxsltVersion: Longint;
 begin
   CheckForNil(pxsltLibxsltVersion, 'xsltLibxsltVersion');
   Result := pxsltLibxsltVersion^;
+end;
+
+function xsltNewTransformContext(style: xsltStylesheetPtr; doc: xmlDocPtr
+  ): xsltTransformContextPtr;
+var
+  fpuExceptionMask: TFPUExceptionMask;
+begin
+  Result := nil;
+  fpuExceptionMask := GetExceptionMask;
+  SetExceptionMask([exInvalidOp, exZeroDivide]);
+  Result := __xsltNewTransformContext(style, doc);
+  SetExceptionMask(fpuExceptionMask);
 end;
 
 initialization
