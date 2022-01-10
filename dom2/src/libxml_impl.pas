@@ -118,8 +118,8 @@ var
   buf: xmlBufferPtr;
 begin
   buf := xmlBufferCreate;
-  xmlNodeDump(buf, LDomNode.requestNodePtr.doc, LDomNode.MyNode, 0, 1);
-  Result := UTF8Decode(buf.content);
+  xmlNodeDump(buf, LDomNode.requestNodePtr^.doc, LDomNode.MyNode, 0, 1);
+  Result := UTF8Decode(buf^.content);
   xmlBufferFree(buf);
 end;
 
@@ -142,13 +142,13 @@ var
   rv: xmlXPathObjectPtr;
   node: xmlNodePtr;
 begin
-  ctxt := xmlXPathNewContext(LDomNode.MyNode.doc);
+  ctxt := xmlXPathNewContext(LDomNode.MyNode^.doc);
   rv := xmlXPathEval(PChar(UTF8Encode(nodePath)), ctxt);
   Result := nil;
   if (rv=nil) then exit;
-  if (rv.type_ = XPATH_NODESET) then begin
-    if (rv.nodesetval.nodeNr > 0) then begin
-      node := rv.nodesetval.nodeTab^;
+  if (rv^.type_ = XPATH_NODESET) then begin
+    if (rv^.nodesetval^.nodeNr > 0) then begin
+      node := rv^.nodesetval^.nodeTab^;
       Result := GetDomObject(node) as IDomNode;
     end;
   end;
@@ -166,8 +166,8 @@ constructor TGDOMXPathNodeList.Create(aBaseNode: TGDOMNode; aQuery: String);
 begin
   inherited Create;
   DomAssert(aBaseNode<>nil, HIERARCHY_REQUEST_ERR, 'XPath query must have a parent');
-  FXPathCtxt := xmlXPathNewContext(aBaseNode.LDomNode.MyNode.doc);
-  FXPathCtxt.node := aBaseNode.LDomNode.MyNode;
+  FXPathCtxt := xmlXPathNewContext(aBaseNode.LDomNode.MyNode^.doc);
+  FXPathCtxt^.node := aBaseNode.LDomNode.MyNode;
   FQuery := aQuery;
   Eval;
 end;
@@ -194,7 +194,7 @@ begin
   end;
   FXPathObj := xmlXPathEvalExpression(PChar(FQuery), FXPathCtxt);
   DomAssert(FXPathObj<>nil, SYNTAX_ERR, 'XPath object does not exist');
-  if (FXPathObj.type_ <> XPATH_NODESET) then begin
+  if (FXPathObj^.type_ <> XPATH_NODESET) then begin
     DomAssert(false, INVALID_ACCESS_ERR, 'XPath object is not a nodeset');
     xmlXPathFreeObject(FXPathObj);
     FXPathObj := nil;
@@ -204,13 +204,13 @@ end;
 function TGDOMXPathNodeList.get_item(index: Integer): IDomNode;
 begin
   DomAssert(index>=0, INVALID_ACCESS_ERR, 'Index below zero');
-  DomAssert(index<FXPathObj.nodesetval.nodeNr, INVALID_ACCESS_ERR, 'Index too high');
-  Result := GetDomObject(xmlXPathNodeSetItem(FXPathObj.nodesetval, index)) as IDomNode;
+  DomAssert(index<FXPathObj^.nodesetval^.nodeNr, INVALID_ACCESS_ERR, 'Index too high');
+  Result := GetDomObject(xmlXPathNodeSetItem(FXPathObj^.nodesetval, index)) as IDomNode;
 end;
 
 function TGDOMXPathNodeList.get_length: Integer;
 begin
-  Result := xmlXPathNodeSetGetLength(FXPathObj.nodesetval);
+  Result := xmlXPathNodeSetGetLength(FXPathObj^.nodesetval);
 end;
 
 { TGDOMDocument }
@@ -270,7 +270,7 @@ procedure TGDOMDocument.save(aUrl: DomString);
 var
   sz: Integer;
 begin
-  sz := xmlSaveFileEnc(PChar(UTF8Encode(aUrl)), GDoc, GDoc.encoding);
+  sz := xmlSaveFileEnc(PChar(UTF8Encode(aUrl)), GDoc, GDoc^.encoding);
   DomAssert(sz>0, 22); //DIRTY // write error
 end;
 
@@ -288,9 +288,9 @@ end;
 function TGDOMDocument.get_xml: DomString;
 var
   p: PxmlChar;
-  sz: Integer;
+  sz: longint;
 begin
-  xmlDocDumpMemory(requestDocPtr, p, @sz);
+  xmlDocDumpMemory(requestDocPtr, p, sz);
   Result := UTF8Decode(p);
   xmlFree(p);
 end;
@@ -302,16 +302,16 @@ begin
   //todo: resolveExternals
   // validation
   if fValidate then begin
-    aCtxt.validate := -1;
+    aCtxt^.validate := -1;
   end else begin
-    aCtxt.validate := 0;
+    aCtxt^.validate := 0;
   end;
   xmlParseDocument(aCtxt);
-  if (aCtxt.wellFormed=0) then begin
-    xmlFreeDoc(aCtxt.myDoc);
-    aCtxt.myDoc := nil;
+  if (aCtxt^.wellFormed=0) then begin
+    xmlFreeDoc(aCtxt^.myDoc);
+    aCtxt^.myDoc := nil;
   end;
-  Result := aCtxt.myDoc;
+  Result := aCtxt^.myDoc;
 end;
 
 initialization

@@ -86,7 +86,7 @@ end;
 function IsReadOnlyNode(node:xmlNodePtr): boolean;
 begin
   if node<>nil then begin
-    case node.type_ of
+    case node^.type_ of
       XML_NOTATION_NODE,
       XML_ENTITY_NODE,
       XML_ENTITY_DECL:
@@ -133,16 +133,16 @@ end;
  *)
 function xmlSetPropNode(elem: xmlNodePtr; attr: xmlAttrPtr): xmlAttrPtr;
 begin
-  if (attr.ns=nil) then begin
-    Result := xmlHasProp(elem, attr.name);
+  if (attr^.ns=nil) then begin
+    Result := xmlHasProp(elem, attr^.name);
   end else begin
-    Result := xmlHasNsProp(elem, attr.name, attr.ns.href);
+    Result := xmlHasNsProp(elem, attr^.name, attr^.ns^.href);
   end;
   if (Result<>nil) then begin
     xmlUnlinkNode(xmlNodePtr(Result));
   end;
   xmlAddChild(elem, xmlNodePtr(attr));
-  elem.nsDef := attr.ns; //DIRTY
+  elem^.nsDef := attr^.ns; //DIRTY
 end;
 
 function isNameChar(c: Longint): boolean;
