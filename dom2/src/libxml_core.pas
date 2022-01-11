@@ -27,13 +27,13 @@ uses
   Windows,
 {$ENDIF}
   libxml2i,
-  libxml2;
+  libxml2,
+  libxslt;
 
 type
   TLDomChildNodeList = class;
   TLDomNode = class;
   TLDomElement = class;
-
   { TLDomObject class }
 
   TLDomObject = class(TInterfacedObject)
@@ -108,6 +108,10 @@ type
     function  getElementsByTagNameNS(const namespaceURI, localName: DomString): IDomNodeList;
   protected //IDomNodeCompare
     function IsSameNode(node: IDomNode): boolean;
+  protected //IDomNodeSelect
+    function selectNode(const nodePath: DomString): IDomNode;
+    function selectNodes(const nodePath: DomString): IDomNodeList;
+    procedure RegisterNS(const prefix, URI: DomString);
   protected
     constructor Create(aLibXml2Node: pointer); virtual;
   public
@@ -149,6 +153,28 @@ type
     constructor Create(aOwnerElement: TLDomElement);
   public
     destructor Destroy; override;
+  end;
+
+  { TLXPathDomNodeList }
+
+  TLXPathDomNodeList = class(TInterfacedObject, IDomNodeList)
+  private
+    fParent: xmlNodePtr;               // if we have a list like node.childnodes,
+                                       // the parent node is stored here
+    fXPathObject: xmlXPathObjectPtr;   // if we have a list, that is the result of
+                                       // an xpath query, the xmlXPathObjectPtr is
+                                       // stored here
+    fOwnerDocument: IDomDocument;
+  protected
+    { IDomNodeList }
+    function get_Item(index: integer): IDomNode;
+    function get_Length: integer;
+  public
+    constructor Create(AParent: xmlNodePtr; ADocument: IDomDocument); overload;
+    constructor Create(AXpathObject: xmlXPathObjectPtr; ADocument: IDomDocument); overload;
+    destructor Destroy; override;
+    { IDomNodeListExt }
+    function get_xml: DomString;
   end;
 
   { TLDomChildNodeList class }
@@ -304,14 +330,55 @@ type
   public
   end;
 
+  (*
+   * neccesary to access internal neccessary methods of TDomDocument,
+   * if you have a variable of type IDomDocument
+   *)
+  IDomInternal = interface
+    ['{E9D505C3-D354-4D19-807A-8B964E954C09}']
+    procedure set_reason(aReason: DomString);
+    function get_reason: DomString; safecall;
+
+    // managing the list of nodes and attributes, that must be freed manually
+    procedure removeNode(node: xmlNodePtr);
+    procedure removeAttr(attr: xmlAttrPtr);
+    procedure appendAttr(attr: xmlAttrPtr);
+    procedure appendNode(node: xmlNodePtr);
+    procedure appendNs(ns: xmlNsPtr);
+    function  getNewNamespace(const namespaceURI, prefix: DOMString): xmlNsPtr;
+    function  findOrCreateNewNamespace(const node: xmlNodePtr; const ns: xmlNsPtr): xmlNsPtr; overload;
+    function  findOrCreateNewNamespace(const node: xmlNodePtr; const namespaceURI, prefix: PChar): xmlNsPtr; overload;
+
+    // managing a list of namespace declarations for xpath queries
+    procedure registerNS(prefix,uri:string);
+    function  getPrefixList:TStringList;
+    function  getUriList:TStringList;
+
+    // managing stylesheets, that must be freed differently
+    procedure set_fTempXSL(tempXSL: xsltStylesheetPtr);
+    property reason: DomString read get_reason write set_reason;
+
+    // this procedure removes all text nodes, that contain whitespace only
+    procedure removeWhitespace;
+  end;
+
   { TLDomDocument class }
 
   TLDomDocumentClass = class of TLDomDocument;
-  TLDomDocument = class(TLDomNode, IDomDocument, IDomNode)
+  TLDomDocument = class(TLDomNode, IDomDocument, IDomNode, IDomInternal)
   protected //tmp
     fFlyingNodes: TList;          // on-demand created list of nodes not attached to the document tree (=they have no parent)
   private
     fMyImplementation: IDomImplementation;
+    fPrefixList: TStringList;      // if you want to use prefixes in xpath expressions,
+    fURIList: TStringList;         // they must be registered and are then stored
+                                   // on this two lists.
+    fValidate: boolean;            // if true, returns nil on failure
+                                   // if false, loads a dtd if it exists
+    fReason:  DomString;           // reason of last parse error
+    fLine:    integer;             // line of the first parse error
+    fLinePos: integer;             // row of first parse error
+    fUrl:     DomString;           // filename or URL of parsed file containing error
     function  GetFlyingNodes: TList;
   protected //IDomNode
     function  get_nodeName: DomString;
@@ -352,7 +419,23 @@ type
     function  internalParse(var aCtxt: xmlParserCtxtPtr): xmlDocPtr; virtual;
     function  load(aUrl: DomString): Boolean;
     function  parse(const aXml: DomString): Boolean;
-  protected //
+  protected // IDOMInternal
+    procedure set_reason(aReason: DomString);
+    function get_reason: DomString; safecall;
+    procedure removeNode(node: xmlNodePtr);
+    procedure removeAttr(attr: xmlAttrPtr);
+    procedure appendAttr(attr: xmlAttrPtr);
+    procedure appendNode(node: xmlNodePtr);
+    procedure appendNs(ns: xmlNsPtr);
+    function  getNewNamespace(const namespaceURI, prefix: DOMString): xmlNsPtr;
+    function  findOrCreateNewNamespace(const node: xmlNodePtr; const ns: xmlNsPtr): xmlNsPtr; overload;
+    function  findOrCreateNewNamespace(const node: xmlNodePtr; const namespaceURI, prefix: PChar): xmlNsPtr; overload;
+    procedure registerNS(prefix,uri:string);
+    function  getPrefixList:TStringList;
+    function  getUriList:TStringList;
+    procedure set_fTempXSL(tempXSL: xsltStylesheetPtr);
+    procedure removeWhitespace;
+  protected
     constructor Create(aLibXml2Node: pointer); override;
     (**
      * On-demand creation of the underlying document.
@@ -456,6 +539,13 @@ type
     constructor Create(aVendorId: DomString; aDomBuilderClass: TLDomDocumentBuilderClass);
   end;
 
+  TErrCtx = record
+     document: TLDomDocument;
+     errMsg:   string;
+  end;
+
+  TErrCtxPtr = ^TErrCtx;
+
 //overridable implementations
 var
   GlbNodeClasses: array[XML_ELEMENT_NODE..XML_DOCB_DOCUMENT_NODE] of TLDomNodeClass = (
@@ -487,6 +577,8 @@ var
 function  GetDomObject(aNode: pointer): IUnknown;
 
 function getXmlNode(const Node: IDomNode): xmlNodePtr;
+
+procedure errorHandler(ctx: pointer; msg: PChar; arg1: PChar; arg2: integer; arg3: PChar); cdecl;
 
 implementation
 
@@ -533,6 +625,95 @@ function getXmlNode(const Node: IDomNode): xmlNodePtr;
 begin
   DomAssert1(Assigned(Node), INVALID_ACCESS_ERR, 'Node cannot be null', 'getXmlNode(const Node: IDomNode)');
   Result := (Node as ILibXml2Node).LibXml2NodePtr;
+end;
+
+function countSubstringOccurance(s,sub: string): integer;
+var
+  n: integer;
+begin
+  result := 0;
+  n := Pos(sub,s);
+  while n <> 0 do begin
+    Inc(result);
+    s := Copy(s,n+Length(sub),Length(s)-(n+Length(sub))+1);
+    n := Pos(sub,s);
+  end;
+end;
+
+procedure errorHandler(ctx: pointer; msg: PChar; arg1: PChar; arg2: integer; arg3: PChar); cdecl;
+// writes the formatted error message into the field document.fReason
+// IMPORTANT:
+// ctx.document must be initialized with a pointer to the document
+// of type TDomDocument OR ctx.document is nil and
+// ctx.errMsg is initialized with an empty string
+// document.fLine must be initialized with -1;
+var
+  error:        string;
+  sMsg, sArg1, sArg3:  string;
+  cArg: char;
+  iArg2: integer;
+begin
+  sMsg  := msg;
+  sMsg  := adjustLinebreaks(sMsg);
+  iArg2:=arg2;
+  error:='';
+  if pos('%s',sMsg) > 0 then begin
+    if pos('%d',sMsg) > 0 then begin
+      if countSubstringOccurance(sMsg,'%s') = 2 then begin
+        sArg1 := arg1;
+        sArg3 := arg3;
+        try
+          error := Format(sMsg,[sArg1,iArg2,sArg3]);
+        except
+          error := 'Unknown format of error msg: '+sMsg;
+        end;
+      end else begin
+        sArg1 :=arg1;
+        try
+          error := format(sMsg, [sArg1, iArg2]);
+        except
+          error := 'Too many parameters in error msg: '+sMsg;
+        end;
+      end;
+    end else begin
+      sArg1 :=arg1;
+      if sArg1<>''
+        then error := format(sMsg, [sArg1]);
+    end;
+  end else if pos('%d',sMsg) > 0 then begin
+    iArg2:=integer(arg1);
+    error := format(sMsg, [iArg2]);
+  end else begin if pos('%c',sMsg) > 0 then begin
+    cArg:=char(arg1);
+    sMsg:=stringReplace(sMsg,'%c','%s',[rfReplaceAll]);
+    error:=format(sMsg, [cArg]);
+  end else
+    error := sMsg;
+  end;
+
+  error := adjustLinebreaks(error);
+
+  // check if we are parsing a document or are evaluating an xpath expressions
+  if ctx<>nil then begin
+    if TErrCtxPtr(ctx)^.document<>nil then begin
+      with TLDomDocument(TErrCtxPtr(ctx)^.document) do begin
+        fReason := fReason + sLineBreak +error;
+        // if a dezimal format char is in the format string and fLine was not set yet
+        if (pos('%d',sMsg) > 0) and (fLine=-1) then begin
+          // assign the line number of the error
+          fLine:=iArg2;
+        end;
+        // a validity error isn't an error, if fValidate is false
+        // reset the error line in this case
+        if (pos('validity',error) > 0) and (not fValidate) then begin
+          fLine:=-1;
+        end;
+      end;
+    end else begin
+      // deliver XPATH error string;
+      TErrCtxPtr(ctx)^.ErrMsg:=TErrCtxPtr(ctx)^.ErrMsg+error;
+    end;
+  end;
 end;
 
 function GetGNode(const aNode: IDomNode): xmlNodePtr;
@@ -583,6 +764,124 @@ begin
   if (idx>0) then begin
     doc.FlyingNodes.Delete(idx);
   end;
+end;
+
+{ TLXPathDomNodeList }
+
+function TLXPathDomNodeList.get_item(index: integer): IDomNode;
+// get an item from a nodelist
+var
+  node: xmlNodePtr;
+  i:    integer;
+begin
+  // assign index to i
+  i := index;
+  // set node to nil
+  node := nil;
+  begin
+    // if we have a nodelist with a parent
+    if FParent <> nil then begin
+      // get the first entry of the list
+      node := FParent^.children;
+      // walk through the list i times forward, but not beyond the end
+      while (i > 0) and (node^.Next <> nil) do begin
+        dec(i);
+        node := node^.Next
+      end;
+      // raise an error, if we are at the end, but i isn't zero
+      DomAssert1(i=0, INDEX_SIZE_ERR,'',classname);
+    // if we have a nodelist as array from an xpath result
+    end else begin
+      if FXPathObject <> nil then node :=
+          xmlXPathNodeSetItem(FXPathObject^.nodesetval, i)
+      else DomAssert1(false, INVALID_ACCESS_ERR, '', classname);
+    end;
+  end;
+  // create the result from the xmlNodePtr
+  Result := GetDomObject(node) as IDomNode
+end;
+
+function TLXPathDomNodeList.get_length: integer;
+// get the length of a nodelist
+var
+  node: xmlNodePtr;
+  i:    integer;
+begin
+  // if it is a nodelist with a parent
+  if FParent <> nil then begin
+    i := 1;
+    node := FParent^.children;
+    // count the children
+    if node <> nil then while (node^.Next <> nil) do begin
+        inc(i);
+        node := node^.Next
+      end else i := 0;
+    Result := i
+  // if it is an xpath result array
+  end else begin
+    begin
+      // and it does exist
+      if FXPathObject^.nodesetval<>nil
+        // get the size of the array
+        then Result := FXPathObject^.nodesetval^.nodeNr
+        else result := 0;
+    end
+  end;
+end;
+
+function TLXPathDomNodeList.get_xml: DomString;
+var
+  i: integer;
+  delim: widestring;
+begin
+  // libxml returns unix-like strings in the moment;
+  delim:=#10;
+  result:='';
+  // cyle trough the nodelist
+  for i:=0 to self.get_length-1 do begin
+    // append the xml of the current node to the result
+    result:=result+delim+(self.get_item(i) as IDomNodeExt).get_xml;
+  end;
+end;
+
+constructor TLXPathDomNodeList.Create(AParent: xmlNodePtr; ADocument: IDomDocument);
+  // create a IDomNodeList from a var of type xmlNodePtr
+  // xmlNodePtr is the same as xmlNodePtrList, because in libxml2 there is no
+  // difference in the definition of both
+begin
+  inherited Create;
+  FParent := AParent;
+  FXpathObject := nil;
+  fOwnerDocument := ADocument;
+end;
+
+constructor TLXPathDomNodeList.Create(AXpathObject: xmlXPathObjectPtr;
+  ADocument: IDomDocument);
+  // create a IDomNodeList from a var of type xmlNodeSetPtr
+  //  xmlNodeSetPtr = ^xmlNodeSet;
+  //  xmlNodeSet = record
+  //    nodeNr : longint;                { number of nodes in the set  }
+  //    nodeMax : longint;              { size of the array as allocated  }
+  //    nodeTab : PxmlNodePtr;       { array of nodes in no particular order  }
+  //  end;
+begin
+  inherited Create;
+  FParent := nil;
+  FXpathObject := AXpathObject;
+  fOwnerDocument := ADocument;
+end;
+
+destructor TLXPathDomNodeList.Destroy;
+begin
+  fOwnerDocument := nil;
+  if FXPathObject <> nil then begin
+    try
+      // todo 5: find out, why this causes a problem
+      xmlXPathFreeObject(FXPathObject);
+    except
+    end;
+  end;
+  inherited Destroy;
 end;
 
 { TLDomObject }
@@ -673,14 +972,15 @@ end;
 
 function TLDomNode.cloneNode(deep: Boolean): IDomNode;
 var
-  node: xmlNodePtr;
+  node, clonedNode: xmlNodePtr;
   recursive: Integer;
 begin
   if deep
   then recursive:= 1
-  else recursive:= 0;
-  node := xmlCopyNode(requestNodePtr, recursive);
-  Result := GetDOMObject(node) as IDomNode;
+  else recursive:= 2;
+  node := requestNodePtr;
+  clonedNode := xmlDocCopyNode(node, node^.doc, recursive);
+  Result := GetDOMObject(clonedNode) as IDomNode;
 end;
 
 constructor TLDomNode.Create(aLibXml2Node: pointer);
@@ -742,27 +1042,22 @@ end;
 function TLDomNode.getElementsByTagName(const name: DomString): IDomNodeList;
 begin
   Result := nil;
-(*
   if (name = '*') then begin
     Result := selectNodes('.//*');
   end else begin
     Result := selectNodes('.//'+name);
   end;
-*)
 end;
 
 function TLDomNode.getElementsByTagNameNS(const namespaceURI, localName: DomString): IDomNodeList;
 begin
   Result := nil;
-{TODO!
   RegisterNs('xyz4ct', namespaceURI);
   if localName='*' then begin
     Result := selectNodes('.//xyz4ct:'+localName);
   end else begin
     Result := selectNodes('.//xyz4ct:'+localName);
   end;
-  //todo: more generic code
-}
 end;
 
 function TLDomNode.IsSameNode(node: IDomNode): boolean;
@@ -777,6 +1072,114 @@ begin
   xnode2 := GetXmlNode(node);
   if xnode1 = xnode2 then Result := True
   else Result := False;
+end;
+
+function TLDomNode.selectNode(const nodePath: DomString): IDomNode;
+begin
+  Result := selectNodes(nodePath)[0];
+end;
+
+function TLDomNode.selectNodes(const nodePath: DomString): IDomNodeList;
+// raises SYNTAX_ERR,
+// if invalid xpath expression or
+// if the result type is string or number
+var
+  doc:  xmlDocPtr;
+  ctxt: xmlXPathContextPtr;
+  res:  xmlXPathObjectPtr;
+  temp: string;
+  tmpdoc: xmlDocPtr;
+  tmpnode: xmlNodePtr;
+  nodetype: xmlXPathObjectType;
+  i: integer;
+  Prefix,Uri,Uri1: string;
+  FPrefixList,FUriList:TStringList;
+  errCtx: TErrCtx;
+  ownerDocument: IDomInternal;
+begin
+  // encode the nodePath
+  temp := UTF8Encode(nodePath);
+  // get the xmlDocumentPtr
+  doc := fMyNode^.doc;
+  if (doc = nil) and (fMyNode^.type_ = XML_DOCUMENT_NODE) then
+    doc := xmlDocPtr(fMyNode);
+  // raise an error, if it's nil
+  DomAssert(doc<>nil, INVALID_ACCESS_ERR,classname);
+  // create an XPathContext
+  ctxt := xmlXPathNewContext(doc);
+  // assign the context node
+  ctxt^.node := fMyNode;
+  // get the prefix and uri list
+  if get_ownerDocument = nil
+  then ownerDocument:=Self as IDomInternal
+  else ownerDocument:=get_ownerDocument as IDomInternal;
+  FPrefixList:=ownerDocument.getPrefixList;
+  FUriList:=ownerDocument.getUriList;
+  // register these namespaces in th XPATH context
+  for i:=0 to FPrefixList.Count-1 do begin
+    Prefix:=FPrefixList[i];
+    Uri:=FUriList[i];
+    // check wether it was already registered
+    Uri1:=xmlXPathNsLookup(ctxt,pchar(prefix));
+    // register it only, if it wasn't registered yet
+    // (otherwise you get an access violation)
+    if (Prefix <> '') and (Uri <> '') and (Uri<>Uri1)
+      then xmlXPathRegisterNs(ctxt, PChar(Prefix), PChar(URI));
+  end;
+  // clear last error message
+  ownerDocument.reason := '';
+  ErrCtx.document:=nil;
+  ErrCtx.errMsg:='';
+  // initialize the errorHandler
+  xmlSetGenericErrorFunc(@ErrCtx, xmlGenericErrorFunc(@errorHandler));
+  // evaluate the xpath expression
+  res := xmlXPathEvalExpression(PChar(temp), ctxt);
+  // check if the expression was valid
+  if res <> nil then begin
+    // if there was a result, get it's type
+    nodetype := res^.type_;
+    case nodetype of
+      // if it was a nodeset, create a nodelist
+      XPATH_NODESET:
+        begin
+          Result := TLXPathDomNodeList.Create(res, TLDomDocument(doc^._private))
+        end
+     // otherwise raise an syntax error
+     else begin
+       Result := nil;
+       // cleanUp
+       xmlXPathFreeContext(ctxt);
+       DomAssert(false, SYNTAX_ERR);
+     end;
+    end;
+  // if the xpath expression was invalid
+  end else begin
+    Result := nil;
+    ownerDocument.reason := ErrCtx.errMsg;
+    // cleanUp
+    xmlXPathFreeContext(ctxt);
+    DomAssert(false, SYNTAX_ERR);
+  end;
+  // cleanUp
+  tmpdoc:=ctxt^.doc;
+  tmpnode:=ctxt^.node;
+  //try
+  // todo: check, why this line causes problems
+  xmlXPathFreeContext(ctxt);
+  //except
+  //  temp:=tmpdoc.name;
+  //  temp:=tmpnode.name;
+  //end;
+end;
+
+procedure TLDomNode.RegisterNS(const prefix, URI: DomString);
+var
+  ownerDocument: IDomInternal;
+begin
+  if get_ownerDocument = nil
+  then ownerDocument := Self as IDomInternal
+  else ownerDocument := get_ownerDocument as IDomInternal;
+  ownerDocument.registerNS(UTF8Encode(prefix),UTF8Encode(Uri));
 end;
 
 function TLDomNode.get_firstChild: IDomNode;
@@ -831,6 +1234,7 @@ end;
 
 function TLDomNode.get_namespaceURI: DomString;
 begin
+  Result := '';
   if (fMyNode=nil) then begin
     Result := '(null)';
   end else begin
@@ -841,8 +1245,6 @@ begin
         if fMyNode^.ns=nil then exit;
         Result := UTF8Decode(fMyNode^.ns^.href);
       end;
-    else
-      Result := '';
     end;
   end;
 end;
@@ -981,7 +1383,7 @@ end;
 function TLDomNode.insertBefore(const newChild, refChild: IDomNode): IDomNode;
 var
   node: xmlNodePtr;
-  child: xmlNodePtr;
+  child, nextChild: xmlNodePtr;
 const
   CHILD_TYPES = [
     ELEMENT_NODE,
@@ -1008,12 +1410,18 @@ begin
   DomAssert(not IsReadOnlyNode(child^.parent), NO_MODIFICATION_ALLOWED_ERR, 'insertBefore: modification not allowed here');
 
   UnregisterFlyingNode(child);
-  if (refChild=nil) then begin
-    xmlUnlinkNode(child);
-    node := xmlAddChild(fMyNode, child);
-  end else begin
-    node := xmlAddPrevSibling(GetGNode(refChild), child);
-  end;
+  if child^.type_ = XML_DOCUMENT_FRAG_NODE then
+    child := child^.children;
+  repeat
+    nextChild := child^.next;
+    if (refChild=nil) then begin
+      xmlUnlinkNode(child);
+      node := xmlAddChild(fMyNode, child);
+    end else begin
+      node := xmlAddPrevSibling(GetGNode(refChild), child);
+    end;
+    child := nextChild;
+  until nextChild = nil;
   Result := GetDOMObject(node) as IDomNode;
 end;
 
@@ -1205,6 +1613,8 @@ constructor TLDomDocument.Create(aLibXml2Node: pointer);
 begin
   inherited Create(aLibXml2Node);
   Inc(GlbDocCount);
+  fPrefixList := TStringList.Create;
+  fURIList := TStringList.Create;
 end;
 
 function TLDomDocument.createAttribute(const name: DomString): IDomAttr;
@@ -1339,6 +1749,8 @@ begin
   fFlyingNodes.Free;
   fFlyingNodes := nil;
   fMyImplementation := nil;
+  FreeAndNil(fPrefixList);
+  FreeAndNil(fURIList);
   inherited Destroy;
 end;
 
@@ -1486,6 +1898,85 @@ begin
   finally
     xmlFreeParserCtxt(ctxt);
   end;
+end;
+
+procedure TLDomDocument.set_reason(aReason: DomString);
+begin
+  fReason := aReason;
+end;
+
+function TLDomDocument.get_reason: DomString; safecall;
+begin
+  Result := fReason;
+end;
+
+procedure TLDomDocument.removeNode(node: xmlNodePtr);
+begin
+
+end;
+
+procedure TLDomDocument.removeAttr(attr: xmlAttrPtr);
+begin
+
+end;
+
+procedure TLDomDocument.appendAttr(attr: xmlAttrPtr);
+begin
+
+end;
+
+procedure TLDomDocument.appendNode(node: xmlNodePtr);
+begin
+
+end;
+
+procedure TLDomDocument.appendNs(ns: xmlNsPtr);
+begin
+
+end;
+
+function TLDomDocument.getNewNamespace(const namespaceURI, prefix: DOMString
+  ): xmlNsPtr;
+begin
+
+end;
+
+function TLDomDocument.findOrCreateNewNamespace(const node: xmlNodePtr;
+  const ns: xmlNsPtr): xmlNsPtr;
+begin
+
+end;
+
+function TLDomDocument.findOrCreateNewNamespace(const node: xmlNodePtr;
+  const namespaceURI, prefix: PChar): xmlNsPtr;
+begin
+
+end;
+
+procedure TLDomDocument.registerNS(prefix, uri: string);
+begin
+  FPrefixList.Add(prefix);
+  FUriList.Add(uri);
+end;
+
+function TLDomDocument.getPrefixList: TStringList;
+begin
+  result:=FPrefixList;
+end;
+
+function TLDomDocument.getUriList: TStringList;
+begin
+  result:=FUriList;
+end;
+
+procedure TLDomDocument.set_fTempXSL(tempXSL: xsltStylesheetPtr);
+begin
+
+end;
+
+procedure TLDomDocument.removeWhitespace;
+begin
+
 end;
 
 function TLDomDocument.requestDocPtr: xmlDocPtr;
@@ -1726,7 +2217,8 @@ function TLDomAttr.get_specified: Boolean;
 begin
   //todo: implement it correctly
   Result := true;
-  DomAssert(false, NOT_SUPPORTED_ERR);
+  if fMyNode^.parent<>nil then
+    DomAssert(false, NOT_SUPPORTED_ERR);
 end;
 
 { TLDomAttributeMap }
