@@ -4503,7 +4503,7 @@ uses
   SysUtils, math;
 
 var
-  libHandle: THandle;
+  libHandle: TLibHandle;
 
 // Utility function to make sure procedure entry points are not null
 
@@ -4625,7 +4625,7 @@ initialization
   // but here we need to obtain the addresses of POINTERS to functions. We can
   // get to these addresses (and also those of other data values exported from
   // the DLL) by using GetProcAddress.
-  libHandle := LoadLibrary(LIBXML2_SO);
+  libHandle := LoadLibrary(LIBXML2_SO{$ifdef LINUX}+'.'+SharedSuffix{$endif});
   if libHandle <> 0 then 
   begin
     __emptyExp := xmlExpNodePtrPtr(GetProcAddress(libHandle, 'emptyExp'));
