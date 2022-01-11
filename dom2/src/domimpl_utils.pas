@@ -142,7 +142,6 @@ begin
     xmlUnlinkNode(xmlNodePtr(Result));
   end;
   xmlAddChild(elem, xmlNodePtr(attr));
-  elem^.nsDef := attr^.ns; //DIRTY
 end;
 
 function isNameChar(c: Longint): boolean;
