@@ -3,21 +3,21 @@
   <ProjectSession>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="22">
+    <Units Count="32">
       <Unit0>
         <Filename Value="fpcunitidom2.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="79" Y="6"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="57"/>
       </Unit0>
       <Unit1>
         <Filename Value="xptest_idom2_testdom2methods.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="XPTest_idom2_TestDOM2Methods"/>
-        <TopLine Value="1226"/>
-        <CursorPos X="78" Y="1244"/>
-        <UsageCount Value="34"/>
+        <TopLine Value="712"/>
+        <CursorPos Y="720"/>
+        <UsageCount Value="57"/>
         <Loaded Value="True"/>
       </Unit1>
       <Unit2>
@@ -25,31 +25,31 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="domTestCase"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="28"/>
-        <CursorPos Y="36"/>
-        <UsageCount Value="34"/>
+        <TopLine Value="4"/>
+        <CursorPos X="3" Y="14"/>
+        <UsageCount Value="57"/>
       </Unit2>
       <Unit3>
         <Filename Value="../UnitTest/XPTest_idom2_TestDOM2Methods.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1547"/>
         <CursorPos X="6" Y="1576"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit3>
       <Unit4>
         <Filename Value="../../../dom2/src/idom2.pas"/>
-        <EditorIndex Value="7"/>
-        <TopLine Value="287"/>
-        <CursorPos X="3" Y="287"/>
-        <UsageCount Value="13"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="860"/>
+        <CursorPos X="15" Y="869"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="XPTest_idom2_Shared.pas"/>
-        <EditorIndex Value="8"/>
-        <TopLine Value="213"/>
-        <CursorPos Y="220"/>
-        <UsageCount Value="13"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="81"/>
+        <CursorPos X="3" Y="20"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
@@ -57,15 +57,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="43"/>
         <CursorPos X="19" Y="54"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="11"/>
       </Unit6>
       <Unit7>
         <Filename Value="/usr/share/fpcsrc/packages/fcl-fpcunit/src/fpcunit.pp"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="644"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="146"/>
         <CursorPos Y="654"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="15"/>
       </Unit7>
       <Unit8>
         <Filename Value="/usr/lib64/lazarus/lcl/forms/timepopup.pas"/>
@@ -75,37 +74,34 @@
         <UnitName Value="TimePopup"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="111" Y="255"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="6"/>
       </Unit8>
       <Unit9>
         <Filename Value="../UnitTest/XPTest_idom2_Shared.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="30"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit9>
       <Unit10>
         <Filename Value="../../../dom2/src/libxml_impl.pas"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="28"/>
-        <CursorPos X="24" Y="35"/>
-        <UsageCount Value="13"/>
-        <Loaded Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="17"/>
       </Unit10>
       <Unit11>
         <Filename Value="../../../dom2/src/domimpl_utils.pas"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="9"/>
-        <TopLine Value="72"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="66"/>
         <CursorPos Y="83"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit11>
       <Unit12>
         <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="689"/>
-        <CursorPos X="80" Y="706"/>
-        <UsageCount Value="12"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="1167"/>
+        <CursorPos X="58" Y="1181"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
       </Unit12>
       <Unit13>
@@ -113,187 +109,265 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="217"/>
         <CursorPos X="26" Y="227"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit13>
       <Unit14>
         <Filename Value="/usr/share/fpcsrc/rtl/inc/objpas.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1015"/>
         <CursorPos X="32" Y="1063"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit14>
       <Unit15>
         <Filename Value="../../../headers/src/libxml2_tree.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="548"/>
         <CursorPos X="35" Y="560"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit15>
       <Unit16>
         <Filename Value="../../../headers/libxml2.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="3105"/>
-        <CursorPos X="13" Y="3117"/>
-        <UsageCount Value="11"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="1612"/>
+        <CursorPos X="9" Y="1622"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
       </Unit16>
       <Unit17>
         <Filename Value="/usr/share/fpcsrc/packages/fcl-fpcunit/src/testregistry.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="20"/>
         <CursorPos X="36" Y="27"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit17>
       <Unit18>
         <Filename Value="/usr/share/fpcsrc/packages/fcl-fpcunit/src/testdecorator.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="16"/>
         <CursorPos X="74" Y="29"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="9"/>
       </Unit18>
       <Unit19>
         <Filename Value="../../../dom2/src/idom_ext.pas"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="125"/>
-        <CursorPos X="43" Y="130"/>
-        <UsageCount Value="11"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="110"/>
+        <CursorPos X="9" Y="120"/>
+        <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit19>
       <Unit20>
         <Filename Value="../../../headers/libxml2i.pas"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="15" Y="14"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="9"/>
       </Unit20>
       <Unit21>
         <Filename Value="/usr/share/fpcsrc/packages/fcl-fpcunit/src/DUnitCompatibleInterface.inc"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="43"/>
         <CursorPos X="32" Y="49"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="8"/>
       </Unit21>
+      <Unit22>
+        <Filename Value="/usr/src/debug/glibc-2.33-20.fc34.x86_64/elf/dl-lookup.c"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="840"/>
+        <CursorPos Y="850"/>
+        <UsageCount Value="15"/>
+        <DefaultSyntaxHighlighter Value="C++"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="/usr/src/debug/glibc-2.33-20.fc34.x86_64/elf/dl-sym.c"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="142"/>
+        <CursorPos Y="153"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C++"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="/usr/share/fpcsrc/rtl/inc/dynlibh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="40"/>
+        <CursorPos X="3" Y="40"/>
+        <UsageCount Value="8"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="/usr/share/fpcsrc/rtl/inc/dynlib.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="10"/>
+        <CursorPos X="25" Y="19"/>
+        <UsageCount Value="8"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="/usr/share/fpcsrc/packages/chm/src/chmreader.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="73"/>
+        <CursorPos X="12" Y="84"/>
+        <UsageCount Value="8"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="/usr/share/fpcsrc/rtl/inc/heaph.inc"/>
+        <EditorIndex Value="8"/>
+        <TopLine Value="84"/>
+        <CursorPos X="18" Y="103"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="/usr/src/debug/libxml2-2.9.12-4.fc34.x86_64/tree.c"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="3312"/>
+        <CursorPos Y="3329"/>
+        <UsageCount Value="19"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="C++"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="/usr/lib64/lazarus/components/fpcunit/guitestrunner.pas"/>
+        <ComponentName Value="GUITestRunner"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="GuiTestRunner"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="436"/>
+        <CursorPos Y="447"/>
+        <UsageCount Value="10"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="../../../dom2/src/msxml_impl.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1794"/>
+        <CursorPos X="32" Y="1802"/>
+        <UsageCount Value="10"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="/usr/share/fpcsrc/rtl/wince/windows.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="34"/>
+        <CursorPos X="5" Y="44"/>
+        <UsageCount Value="9"/>
+      </Unit31>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="534" Column="27" TopLine="518"/>
+        <Caret Line="824" Column="23" TopLine="814"/>
       </Position1>
       <Position2>
         <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="536" Column="73" TopLine="518"/>
+        <Caret Line="826" Column="49" TopLine="816"/>
       </Position2>
       <Position3>
-        <Filename Value="xptest_idom2_testdom2methods.pas"/>
-        <Caret Line="10" Column="7"/>
+        <Filename Value="../../../dom2/src/libxml_core.pas"/>
+        <Caret Line="843" Column="49" TopLine="834"/>
       </Position3>
       <Position4>
-        <Filename Value="/usr/share/fpcsrc/packages/fcl-fpcunit/src/fpcunit.pp"/>
-        <Caret Line="626" TopLine="616"/>
+        <Filename Value="../../../dom2/src/idom_ext.pas"/>
+        <Caret Line="120" Column="2" TopLine="110"/>
       </Position4>
       <Position5>
-        <Filename Value="/usr/share/fpcsrc/packages/fcl-fpcunit/src/fpcunit.pp"/>
-        <Caret Line="654" TopLine="644"/>
+        <Filename Value="../../../dom2/src/libxml_core.pas"/>
+        <Caret Line="843" Column="64" TopLine="832"/>
       </Position5>
       <Position6>
-        <Filename Value="/usr/share/fpcsrc/packages/fcl-fpcunit/src/DUnitCompatibleInterface.inc"/>
-        <Caret Line="54" TopLine="43"/>
+        <Filename Value="../../../dom2/src/libxml_core.pas"/>
+        <Caret Line="856" Column="5" TopLine="849"/>
       </Position6>
       <Position7>
-        <Filename Value="xptest_idom2_testdom2methods.pas"/>
-        <Caret Line="11" Column="35"/>
+        <Filename Value="../../../dom2/src/libxml_core.pas"/>
+        <Caret Line="1148" TopLine="1138"/>
       </Position7>
       <Position8>
-        <Filename Value="xptest_idom2_testdom2methods.pas"/>
-        <Caret Line="55" Column="24" TopLine="41"/>
+        <Filename Value="../../../dom2/src/libxml_core.pas"/>
+        <Caret Line="1119" TopLine="1109"/>
       </Position8>
       <Position9>
-        <Filename Value="xptest_idom2_testdom2methods.pas"/>
-        <Caret Line="305" Column="14" TopLine="299"/>
+        <Filename Value="../../../dom2/src/libxml_core.pas"/>
+        <Caret Line="1148" TopLine="1138"/>
       </Position9>
       <Position10>
-        <Filename Value="XPTest_idom2_Shared.pas"/>
-        <Caret Line="115" Column="18" TopLine="105"/>
+        <Filename Value="../../../dom2/src/libxml_core.pas"/>
+        <Caret Line="867" TopLine="856"/>
       </Position10>
       <Position11>
-        <Filename Value="XPTest_idom2_Shared.pas"/>
-        <Caret Line="220" TopLine="213"/>
+        <Filename Value="../../../dom2/src/libxml_core.pas"/>
+        <Caret Line="868" TopLine="856"/>
       </Position11>
       <Position12>
         <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="768" TopLine="758"/>
+        <Caret Line="869" TopLine="856"/>
       </Position12>
       <Position13>
         <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="771" TopLine="758"/>
+        <Caret Line="870" TopLine="856"/>
       </Position13>
       <Position14>
         <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="772" TopLine="758"/>
+        <Caret Line="871" TopLine="856"/>
       </Position14>
       <Position15>
         <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="773" TopLine="758"/>
+        <Caret Line="872" TopLine="856"/>
       </Position15>
       <Position16>
         <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="774" TopLine="758"/>
+        <Caret Line="1167" TopLine="1158"/>
       </Position16>
       <Position17>
         <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="775" TopLine="758"/>
+        <Caret Line="1168" TopLine="1158"/>
       </Position17>
       <Position18>
         <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="776" TopLine="759"/>
+        <Caret Line="1171" TopLine="1158"/>
       </Position18>
       <Position19>
         <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="777" TopLine="760"/>
+        <Caret Line="1176" TopLine="1160"/>
       </Position19>
       <Position20>
         <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="778" TopLine="761"/>
+        <Caret Line="1050" TopLine="1039"/>
       </Position20>
       <Position21>
-        <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="780" TopLine="763"/>
+        <Filename Value="xptest_idom2_testdom2methods.pas"/>
+        <Caret Line="699" TopLine="682"/>
       </Position21>
       <Position22>
-        <Filename Value="XPTest_idom2_Shared.pas"/>
-        <Caret Line="220" TopLine="213"/>
+        <Filename Value="xptest_idom2_testdom2methods.pas"/>
+        <Caret Line="700" TopLine="683"/>
       </Position22>
       <Position23>
-        <Filename Value="../../../dom2/src/domimpl_utils.pas"/>
-        <Caret Line="83" TopLine="72"/>
+        <Filename Value="xptest_idom2_testdom2methods.pas"/>
+        <Caret Line="702" TopLine="685"/>
       </Position23>
       <Position24>
         <Filename Value="xptest_idom2_testdom2methods.pas"/>
-        <Caret Line="361" TopLine="351"/>
+        <Caret Line="703" TopLine="686"/>
       </Position24>
       <Position25>
-        <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="683" TopLine="673"/>
+        <Filename Value="xptest_idom2_testdom2methods.pas"/>
+        <Caret Line="704" TopLine="687"/>
       </Position25>
       <Position26>
-        <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="516" TopLine="507"/>
+        <Filename Value="xptest_idom2_testdom2methods.pas"/>
+        <Caret Line="705" TopLine="689"/>
       </Position26>
       <Position27>
-        <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="1815" TopLine="1804"/>
+        <Filename Value="xptest_idom2_testdom2methods.pas"/>
+        <Caret Line="706" TopLine="690"/>
       </Position27>
       <Position28>
-        <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="696" TopLine="686"/>
+        <Filename Value="xptest_idom2_testdom2methods.pas"/>
+        <Caret Line="720" TopLine="712"/>
       </Position28>
       <Position29>
         <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="592" TopLine="582"/>
+        <Caret Line="1060" Column="7" TopLine="1051"/>
       </Position29>
       <Position30>
-        <Filename Value="../../../dom2/src/libxml_core.pas"/>
-        <Caret Line="706" Column="80" TopLine="686"/>
+        <Filename Value="xptest_idom2_testdom2methods.pas"/>
+        <Caret Line="720" TopLine="712"/>
       </Position30>
     </JumpHistory>
     <RunParams>
@@ -302,10 +376,13 @@
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <Watches Count="1">
+    <Watches Count="2">
       <Item1>
-        <Expression Value="fVendorID"/>
+        <Expression Value="doc.documentElement.childNodes.length"/>
       </Item1>
+      <Item2>
+        <Expression Value="Name"/>
+      </Item2>
     </Watches>
   </Debugging>
 </CONFIG>
