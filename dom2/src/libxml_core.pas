@@ -352,7 +352,6 @@ type
     // managing a list of namespace declarations for xpath queries
     procedure registerNS(prefix,uri:string);
     function  getPrefixList:TStringList;
-    function  getUriList:TStringList;
 
     // managing stylesheets, that must be freed differently
     procedure set_fTempXSL(tempXSL: xsltStylesheetPtr);
@@ -371,8 +370,8 @@ type
   private
     fMyImplementation: IDomImplementation;
     fPrefixList: TStringList;      // if you want to use prefixes in xpath expressions,
-    fURIList: TStringList;         // they must be registered and are then stored
-                                   // on this two lists.
+                                   // they must be registered and are then stored
+                                   // on this list.
     fValidate: boolean;            // if true, returns nil on failure
                                    // if false, loads a dtd if it exists
     fReason:  DomString;           // reason of last parse error
@@ -432,7 +431,6 @@ type
     function  findOrCreateNewNamespace(const node: xmlNodePtr; const namespaceURI, prefix: PChar): xmlNsPtr; overload;
     procedure registerNS(prefix,uri:string);
     function  getPrefixList:TStringList;
-    function  getUriList:TStringList;
     procedure set_fTempXSL(tempXSL: xsltStylesheetPtr);
     procedure removeWhitespace;
   protected
@@ -980,6 +978,7 @@ begin
   else recursive:= 2;
   node := requestNodePtr;
   clonedNode := xmlDocCopyNode(node, node^.doc, recursive);
+  if node^.ns <> nil then clonedNode^.ns := xmlCopyNamespace(node^.ns);
   Result := GetDOMObject(clonedNode) as IDomNode;
 end;
 
@@ -1050,12 +1049,27 @@ begin
 end;
 
 function TLDomNode.getElementsByTagNameNS(const namespaceURI, localName: DomString): IDomNodeList;
+var
+  i: Integer;
+  ownerDocument: IDomInternal;
+  PrefixList: TStringList;
+  XPath: string;
 begin
   Result := nil;
-  RegisterNs('xyz4ct', namespaceURI);
-  if localName='*' then begin
-    Result := selectNodes('.//xyz4ct:'+localName);
-  end else begin
+  if namespaceURI='*' then begin
+    // get the prefix and uri list
+    if get_ownerDocument = nil
+    then ownerDocument:=Self as IDomInternal
+    else ownerDocument:=get_ownerDocument as IDomInternal;
+    PrefixList:=ownerDocument.getPrefixList;
+    XPath := './/'+PrefixList.Names[0]+':'+localName;
+    for i := 1 to PrefixList.Count - 1 do
+    begin
+      XPath := XPath+'|.//'+PrefixList.Names[i]+':'+localName;;
+    end;
+    Result := selectNodes(XPath);
+  end else begin 
+    RegisterNs('xyz4ct', namespaceURI);
     Result := selectNodes('.//xyz4ct:'+localName);
   end;
 end;
@@ -1093,7 +1107,7 @@ var
   nodetype: xmlXPathObjectType;
   i: integer;
   Prefix,Uri,Uri1: string;
-  FPrefixList,FUriList:TStringList;
+  FPrefixList:TStringList;
   errCtx: TErrCtx;
   ownerDocument: IDomInternal;
 begin
@@ -1114,11 +1128,10 @@ begin
   then ownerDocument:=Self as IDomInternal
   else ownerDocument:=get_ownerDocument as IDomInternal;
   FPrefixList:=ownerDocument.getPrefixList;
-  FUriList:=ownerDocument.getUriList;
   // register these namespaces in th XPATH context
   for i:=0 to FPrefixList.Count-1 do begin
-    Prefix:=FPrefixList[i];
-    Uri:=FUriList[i];
+    Prefix:=FPrefixList.Names[i];
+    Uri:=FPrefixList.Values[Prefix];
     // check wether it was already registered
     Uri1:=xmlXPathNsLookup(ctxt,pchar(prefix));
     // register it only, if it wasn't registered yet
@@ -1158,7 +1171,7 @@ begin
     ownerDocument.reason := ErrCtx.errMsg;
     // cleanUp
     xmlXPathFreeContext(ctxt);
-    DomAssert(false, SYNTAX_ERR);
+    DomAssert(false, SYNTAX_ERR, ownerDocument.reason);
   end;
   // cleanUp
   tmpdoc:=ctxt^.doc;
@@ -1370,6 +1383,9 @@ end;
 function TLDomNode.hasAttributes: Boolean;
 begin
   Result := False;
+  if fMyNode=nil then exit;
+  if fMyNode^.properties=nil then exit;
+  Result := True;
 end;
 
 function TLDomNode.hasChildNodes: Boolean;
@@ -1533,6 +1549,7 @@ begin
     begin
       xmlNodeSetContent(fMyNode, PChar(UTF8Encode(value)));
     end;
+  XML_ELEMENT_NODE: begin end;
   else
     DomAssert(false, NO_MODIFICATION_ALLOWED_ERR);
   end;
@@ -1614,7 +1631,7 @@ begin
   inherited Create(aLibXml2Node);
   Inc(GlbDocCount);
   fPrefixList := TStringList.Create;
-  fURIList := TStringList.Create;
+  fPrefixList.Sorted:=True;
 end;
 
 function TLDomDocument.createAttribute(const name: DomString): IDomAttr;
@@ -1705,6 +1722,7 @@ begin
   node := xmlNewDocNode(requestDocPtr, nil, PChar(ulocal), nil);
   if (uuri<>'') then begin
     ns := xmlNewNs(node, PChar(uuri), PChar(uprefix));
+    registerNS(uprefix, uuri);
     xmlSetNs(node, ns);
   end;
   Result := GetDOMObject(node) as IDomElement;
@@ -1750,7 +1768,6 @@ begin
   fFlyingNodes := nil;
   fMyImplementation := nil;
   FreeAndNil(fPrefixList);
-  FreeAndNil(fURIList);
   inherited Destroy;
 end;
 
@@ -1821,7 +1838,7 @@ end;
 function TLDomDocument.importNode(importedNode: IDomNode; deep: Boolean): IDomNode;
 var
   recurse: integer;
-  node: xmlNodePtr;
+  node, impNode: xmlNodePtr;
 begin
   Result:=nil;
   if importedNode=nil then exit;
@@ -1831,13 +1848,15 @@ begin
     NOTATION_NODE,
     ENTITY_NODE:
       DomAssert(false, NOT_SUPPORTED_ERR);
-    ATTRIBUTE_NODE:
-      DomAssert(false, NOT_SUPPORTED_ERR); //ToDo: implement this case
+//    ATTRIBUTE_NODE:
+//      DomAssert(false, NOT_SUPPORTED_ERR); //ToDo: implement this case
   else
     if deep
     then recurse:=1
     else recurse:=0;
-    node:=xmlDocCopyNode(GetGNode(importedNode), requestDocPtr, recurse);
+    impNode := GetGNode(importedNode);
+    node:=xmlDocCopyNode(impNode, requestDocPtr, recurse);
+    if impNode^.ns <> nil then node^.ns := xmlCopyNamespace(impNode^.ns);
     Result := GetDOMObject(node) as IDomNode;
   end;
 end;
@@ -1954,19 +1973,18 @@ begin
 end;
 
 procedure TLDomDocument.registerNS(prefix, uri: string);
+var
+  index: Integer;
 begin
-  FPrefixList.Add(prefix);
-  FUriList.Add(uri);
+  index := FPrefixList.IndexOfName(prefix);
+  if index <> -1 then
+    FPrefixList.Delete(index);
+  FPrefixList.Add(prefix+'='+uri);
 end;
 
 function TLDomDocument.getPrefixList: TStringList;
 begin
   result:=FPrefixList;
-end;
-
-function TLDomDocument.getUriList: TStringList;
-begin
-  result:=FUriList;
 end;
 
 procedure TLDomDocument.set_fTempXSL(tempXSL: xsltStylesheetPtr);
@@ -2072,7 +2090,8 @@ end;
 
 procedure TLDomDocument.set_nodeValue(const value: DomString);
 begin
-  DomAssert(False, NO_MODIFICATION_ALLOWED_ERR);
+  // ignore: should have no effect at all
+  // DomAssert(False, NO_MODIFICATION_ALLOWED_ERR);
 end;
 
 { TLDomCharacterData }
@@ -2391,11 +2410,8 @@ end;
 procedure TLDomElement.removeAttributeNS(const namespaceURI, localName: DomString);
 var
   attr: xmlAttrPtr;
-  uns, ulocal: String;
 begin
-  uns := UTF8Encode(localName);
-  ulocal := UTF8Encode(namespaceURI);
-  attr := xmlHasNsProp(fMyNode, PChar(uns), PChar(ulocal));
+  attr := xmlHasNsProp(fMyNode, PChar(UTF8Encode(localName)), PChar(UTF8Encode(namespaceURI)));
   if (attr <> nil) then begin
     xmlUnlinkNode(xmlNodePtr(attr));
     RegisterFlyingNode(xmlNodePtr(attr));
