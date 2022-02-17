@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectSession>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <BuildModes Active="Default"/>
     <Units Count="5">
       <Unit0>
         <Filename Value="TestParseFile.lpr"/>
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="44"/>
-        <CursorPos Y="56"/>
-        <UsageCount Value="22"/>
+        <TopLine Value="54"/>
+        <CursorPos X="77" Y="66"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -23,8 +23,8 @@
       <Unit2>
         <Filename Value="../../libxml2.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="4532"/>
-        <CursorPos X="4" Y="4542"/>
+        <TopLine Value="3320"/>
+        <CursorPos X="27" Y="3272"/>
         <UsageCount Value="10"/>
       </Unit2>
       <Unit3>
@@ -42,7 +42,7 @@
         <UsageCount Value="10"/>
       </Unit4>
     </Units>
-    <JumpHistory Count="20" HistoryIndex="19">
+    <JumpHistory Count="27" HistoryIndex="26">
       <Position1>
         <Filename Value="TestParseFile.lpr"/>
         <Caret Line="19" Column="60" TopLine="9"/>
@@ -105,34 +105,73 @@
       </Position15>
       <Position16>
         <Filename Value="TestParseFile.lpr"/>
-        <Caret Line="10" Column="11" TopLine="52"/>
+        <Caret Line="74" TopLine="59"/>
       </Position16>
       <Position17>
         <Filename Value="TestParseFile.lpr"/>
-        <Caret Line="74" TopLine="59"/>
+        <Caret Line="75" Column="56" TopLine="68"/>
       </Position17>
       <Position18>
         <Filename Value="TestParseFile.lpr"/>
-        <Caret Line="75" Column="56" TopLine="68"/>
+        <Caret Line="81" TopLine="68"/>
       </Position18>
       <Position19>
         <Filename Value="TestParseFile.lpr"/>
-        <Caret Line="81" TopLine="68"/>
+        <Caret Line="53" TopLine="44"/>
       </Position19>
       <Position20>
         <Filename Value="TestParseFile.lpr"/>
-        <Caret Line="53" TopLine="44"/>
+        <Caret Line="7" Column="106"/>
       </Position20>
+      <Position21>
+        <Filename Value="TestParseFile.lpr"/>
+        <Caret Line="10" Column="12"/>
+      </Position21>
+      <Position22>
+        <Filename Value="TestParseFile.lpr"/>
+        <Caret Line="72" TopLine="64"/>
+      </Position22>
+      <Position23>
+        <Filename Value="TestParseFile.lpr"/>
+        <Caret Line="73" TopLine="64"/>
+      </Position23>
+      <Position24>
+        <Filename Value="TestParseFile.lpr"/>
+        <Caret Line="74" TopLine="64"/>
+      </Position24>
+      <Position25>
+        <Filename Value="TestParseFile.lpr"/>
+        <Caret Line="75" TopLine="64"/>
+      </Position25>
+      <Position26>
+        <Filename Value="TestParseFile.lpr"/>
+        <Caret Line="6" Column="63"/>
+      </Position26>
+      <Position27>
+        <Filename Value="TestParseFile.lpr"/>
+        <Caret Line="71" Column="44" TopLine="54"/>
+      </Position27>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes Count="1" ActiveMode="default">
         <Mode0 Name="default">
           <local>
-            <CommandLineParams Value="-f test.xml"/>
+            <CommandLineParams Value="-f ../libxml2-test/test.xml"/>
           </local>
         </Mode0>
       </Modes>
     </RunParams>
+    <HistoryLists Count="3">
+      <List0 Name="WorkingDirectory" Type="File" Count="1"/>
+      <List1 Name="LaunchingApplication" Type="File" Count="2">
+        <Item1 Value="C:\Windows\System32\cmd.exe \C ${TargetCmdLine}"/>
+        <Item2 Value="C:\Windows\System32\cmd.exe /C ${TargetCmdLine}"/>
+      </List1>
+      <List2 Name="CommandLineParameters" Count="2">
+        <Item1 Value="-f ../libxml2-test/test.xml"/>
+        <Item2 Value="-f test.xml"/>
+      </List2>
+    </HistoryLists>
   </ProjectSession>
 </CONFIG>

@@ -67,8 +67,8 @@ var
   ctxt: xmlParserCtxtPtr;
 begin
   Result := nil;
-  xmlFreePascalInitParser();
-  ctxt := xmlCreateFileParserCtxt(PAnsiChar(aFileName));
+  xmlInitParser();
+  ctxt := xmlCreateFileParserCtxt(PAnsiChar(UTF8Encode(aFileName)));
   if (ctxt = nil) then exit;
   xmlParseDocument(ctxt);
   if (ctxt^.wellFormed<>0) then begin
