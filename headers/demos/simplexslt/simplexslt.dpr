@@ -31,7 +31,7 @@ var
   FStyleSheetFile : String;
   FInputFile : String;
   FOutputFile : String;
-  FXSLTParams : array of String;
+  FXSLTParams : array of RawByteString;
   FXSLTParamCount : Integer;
 
 procedure Usage;
@@ -60,7 +60,7 @@ begin
     SetLength(FXSLTParams, Length(FXSLTParams) + 2);
     Parameter := Copy(Switch, 1, EqPos-1);
     SetLength(FXSLTParams[FXSLTParamCount], Length(Parameter));
-    FXSLTParams[FXSLTParamCount] := Parameter;
+    FXSLTParams[FXSLTParamCount] := UTF8Encode(Parameter);
     Value := '"' + Copy(Switch, EqPos+1, Length(Switch)) +  '"';
     Inc(FXSLTParamCount);
     SetLength(FXSLTParams[FXSLTParamCount], Length(Value));
@@ -110,17 +110,17 @@ begin
   FXSLTParams[FXSLTParamCount] := '';
 
   xmlSubstituteEntitiesDefault(1);
-  cur := xsltParseStylesheetFile(pchar(FStyleSheetFile));
-  doc := xmlParseFile(pchar(FInputFile));
+  cur := xsltParseStylesheetFile(PAnsiChar(UTF8Encode(FStyleSheetFile)));
+  doc := xmlParseFile(PAnsiChar(UTF8Encode(FInputFile)));
   tc := xsltNewTransformContext(cur, doc);
   if (FMode <> '') then begin
-    tc.Mode := pchar(FMode);
+    tc.Mode := PAnsiChar(UTF8Encode(FMode));
   end;
-  res := xsltApplyStylesheetUser(cur, doc, ppchar(FXSLTParams), nil, nil, tc);
+  res := xsltApplyStylesheetUser(cur, doc, PPAnsiChar(FXSLTParams), nil, nil, tc);
   if (FOutputFile = '') then begin
     xsltSaveResultToFd(1, res, cur)
   end else begin
-    xsltSaveResultToFileName(pchar(FOutputFile), res, cur, 0);
+    xsltSaveResultToFileName(PAnsiChar(UTF8Encode(FOutputFile)), res, cur, 0);
   end;
   xsltFreeTransformContext(tc);
   xsltFreeStylesheet(cur);

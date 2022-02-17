@@ -13,7 +13,11 @@ const
 {$IFDEF WIN32}
   LIBXSLT_SO = 'libxslt.dll';
 {$ELSE}
+  {$IFDEF WIN64}
+  LIBXSLT_SO = 'libxslt.dll';
+  {$ELSE}
   LIBXSLT_SO = 'libxslt';
+  {$ENDIF}
 {$ENDIF}
 
 type
@@ -196,7 +200,7 @@ type
       xsltPreComputeFunction = function  (style: xsltStylesheetPtr; inst: xmlNodePtr; function_: xsltTransformFunction) : xsltElemPreCompPtr; cdecl;
         xsltPreComputeFunctionPtr = ^xsltPreComputeFunction;
 
-      xsltSecurityCheck = function  (sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr; const value: PChar) : Longint; cdecl;
+      xsltSecurityCheck = function  (sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr; const value: PAnsiChar) : Longint; cdecl;
         xsltSecurityCheckPtr = ^xsltSecurityCheck;
 
       xsltSortFunc = procedure  (ctxt: xsltTransformContextPtr; sorts: xmlNodePtrPtr; nbsorts: Longint); cdecl;
@@ -768,7 +772,7 @@ TODO: We need to get rid of this.
           globalVars : xmlHashTablePtr; { the global variables and params}
           inst : xmlNodePtr; { the instruction in the stylesheet}
           xinclude : Longint; { should XInclude be processed}
-          outputFile : PChar; { the output URI if known}
+          outputFile : PAnsiChar; { the output URI if known}
           profile : Longint; { is this run profiled}
           prof : Longint; { the current profiled value}
           profNr : Longint; { Nb of templates in the stack}
@@ -844,8 +848,8 @@ exits}
   procedure xsltApplyImports (ctxt: xsltTransformContextPtr; contextNode: xmlNodePtr; inst: xmlNodePtr; comp: xsltStylePreCompPtr); cdecl; external LIBXSLT_SO;
   procedure xsltApplyOneTemplate (ctxt: xsltTransformContextPtr; contextNode: xmlNodePtr; list: xmlNodePtr; templ: xsltTemplatePtr; params: xsltStackElemPtr); cdecl; external LIBXSLT_SO;
   procedure xsltApplyStripSpaces (ctxt: xsltTransformContextPtr; node: xmlNodePtr); cdecl; external LIBXSLT_SO;
-  function xsltApplyStylesheet (style: xsltStylesheetPtr; doc: xmlDocPtr; const params: PPChar) : xmlDocPtr; cdecl; external LIBXSLT_SO;
-  function xsltApplyStylesheetUser (style: xsltStylesheetPtr; doc: xmlDocPtr; const params: PPChar; const output: PChar; profile: PFILE; userCtxt: xsltTransformContextPtr) : xmlDocPtr; cdecl; external LIBXSLT_SO;
+  function xsltApplyStylesheet (style: xsltStylesheetPtr; doc: xmlDocPtr; const params: PPAnsiChar) : xmlDocPtr; cdecl; external LIBXSLT_SO;
+  function xsltApplyStylesheetUser (style: xsltStylesheetPtr; doc: xmlDocPtr; const params: PPAnsiChar; const output: PAnsiChar; profile: PFILE; userCtxt: xsltTransformContextPtr) : xmlDocPtr; cdecl; external LIBXSLT_SO;
   procedure xsltApplyTemplates (ctxt: xsltTransformContextPtr; node: xmlNodePtr; inst: xmlNodePtr; castedComp: xsltStylePreCompPtr); cdecl; external LIBXSLT_SO;
   function xsltAttrListTemplateProcess (ctxt: xsltTransformContextPtr; target: xmlNodePtr; attrs: xmlAttrPtr) : xmlAttrPtr; cdecl; external LIBXSLT_SO;
   function xsltAttrTemplateProcess (ctxt: xsltTransformContextPtr; target: xmlNodePtr; attr: xmlAttrPtr) : xmlAttrPtr; cdecl; external LIBXSLT_SO;
@@ -890,7 +894,7 @@ exits}
   function xsltEvalOneUserParam (ctxt: xsltTransformContextPtr; const name: xmlCharPtr; const value: xmlCharPtr) : Longint; cdecl; external LIBXSLT_SO;
   function xsltEvalStaticAttrValueTemplate (style: xsltStylesheetPtr; inst: xmlNodePtr; const name: xmlCharPtr; const ns: xmlCharPtr; found: PInteger) : xmlCharPtr; cdecl; external LIBXSLT_SO;
   function xsltEvalTemplateString (ctxt: xsltTransformContextPtr; contextNode: xmlNodePtr; inst: xmlNodePtr) : xmlCharPtr; cdecl; external LIBXSLT_SO;
-  function xsltEvalUserParams (ctxt: xsltTransformContextPtr; const params: PPChar) : Longint; cdecl; external LIBXSLT_SO;
+  function xsltEvalUserParams (ctxt: xsltTransformContextPtr; const params: PPAnsiChar) : Longint; cdecl; external LIBXSLT_SO;
   function xsltEvalXPathPredicate (ctxt: xsltTransformContextPtr; comp: xmlXPathCompExprPtr; nsList: xmlNsPtrPtr; nsNr: Longint) : Longint; cdecl; external LIBXSLT_SO;
   function xsltEvalXPathString (ctxt: xsltTransformContextPtr; comp: xmlXPathCompExprPtr) : xmlCharPtr; cdecl; external LIBXSLT_SO;
   function xsltEvalXPathStringNs (ctxt: xsltTransformContextPtr; comp: xmlXPathCompExprPtr; nsNr: Longint; nsList: xmlNsPtrPtr) : xmlCharPtr; cdecl; external LIBXSLT_SO;
@@ -983,7 +987,8 @@ exits}
   procedure xsltParseStylesheetAttributeSet (style: xsltStylesheetPtr; cur: xmlNodePtr); cdecl; external LIBXSLT_SO;
   function xsltParseStylesheetCallerParam (ctxt: xsltTransformContextPtr; inst: xmlNodePtr) : xsltStackElemPtr; cdecl; external LIBXSLT_SO;
   function xsltParseStylesheetDoc (doc: xmlDocPtr) : xsltStylesheetPtr; cdecl; external LIBXSLT_SO;
-  function xsltParseStylesheetFile (const filename: xmlCharPtr) : xsltStylesheetPtr; cdecl; external LIBXSLT_SO;
+  function __xsltParseStylesheetFile (const filename: xmlCharPtr) : xsltStylesheetPtr; cdecl; external LIBXSLT_SO name 'xsltParseStylesheetFile';
+  function xsltParseStylesheetFile (const filename: xmlCharPtr) : xsltStylesheetPtr;
   function xsltParseStylesheetImport (style: xsltStylesheetPtr; cur: xmlNodePtr) : Longint; cdecl; external LIBXSLT_SO;
   function xsltParseStylesheetImportedDoc (doc: xmlDocPtr; parentStyle: xsltStylesheetPtr) : xsltStylesheetPtr; cdecl; external LIBXSLT_SO;
   function xsltParseStylesheetInclude (style: xsltStylesheetPtr; cur: xmlNodePtr) : Longint; cdecl; external LIBXSLT_SO;
@@ -999,9 +1004,9 @@ exits}
   function xsltPreComputeExtModuleElement (style: xsltStylesheetPtr; inst: xmlNodePtr) : xsltElemPreCompPtr; cdecl; external LIBXSLT_SO;
   procedure xsltPrintErrorContext (ctxt: xsltTransformContextPtr; style: xsltStylesheetPtr; node: xmlNodePtr); cdecl; external LIBXSLT_SO;
   procedure xsltProcessingInstruction (ctxt: xsltTransformContextPtr; node: xmlNodePtr; inst: xmlNodePtr; castedComp: xsltStylePreCompPtr); cdecl; external LIBXSLT_SO;
-  function xsltProfileStylesheet (style: xsltStylesheetPtr; doc: xmlDocPtr; const params: PPChar; output: PFILE) : xmlDocPtr; cdecl; external LIBXSLT_SO;
+  function xsltProfileStylesheet (style: xsltStylesheetPtr; doc: xmlDocPtr; const params: PPAnsiChar; output: PFILE) : xmlDocPtr; cdecl; external LIBXSLT_SO;
   function xsltQuoteOneUserParam (ctxt: xsltTransformContextPtr; const name: xmlCharPtr; const value: xmlCharPtr) : Longint; cdecl; external LIBXSLT_SO;
-  function xsltQuoteUserParams (ctxt: xsltTransformContextPtr; const params: PPChar) : Longint; cdecl; external LIBXSLT_SO;
+  function xsltQuoteUserParams (ctxt: xsltTransformContextPtr; const params: PPAnsiChar) : Longint; cdecl; external LIBXSLT_SO;
   procedure xsltRegisterAllElement (ctxt: xsltTransformContextPtr); cdecl; external LIBXSLT_SO;
   procedure xsltRegisterAllExtras (); cdecl; external LIBXSLT_SO;
   procedure xsltRegisterAllFunctions (ctxt: xmlXPathContextPtr); cdecl; external LIBXSLT_SO;
@@ -1021,16 +1026,16 @@ exits}
   procedure xsltReleaseRVT (ctxt: xsltTransformContextPtr; RVT: xmlDocPtr); cdecl; external LIBXSLT_SO;
   procedure xsltResolveStylesheetAttributeSet (style: xsltStylesheetPtr); cdecl; external LIBXSLT_SO;
   function xsltRestoreDocumentNamespaces (ns: xsltNsMapPtr; doc: xmlDocPtr) : Longint; cdecl; external LIBXSLT_SO;
-  function xsltRunStylesheet (style: xsltStylesheetPtr; doc: xmlDocPtr; const params: PPChar; const output: PChar; SAX: xmlSAXHandlerPtr; IObuf: xmlOutputBufferPtr) : Longint; cdecl; external LIBXSLT_SO;
-  function xsltRunStylesheetUser (style: xsltStylesheetPtr; doc: xmlDocPtr; const params: PPChar; const output: PChar; SAX: xmlSAXHandlerPtr; IObuf: xmlOutputBufferPtr; profile: PFILE; userCtxt: xsltTransformContextPtr) : Longint; cdecl; external LIBXSLT_SO;
+  function xsltRunStylesheet (style: xsltStylesheetPtr; doc: xmlDocPtr; const params: PPAnsiChar; const output: PAnsiChar; SAX: xmlSAXHandlerPtr; IObuf: xmlOutputBufferPtr) : Longint; cdecl; external LIBXSLT_SO;
+  function xsltRunStylesheetUser (style: xsltStylesheetPtr; doc: xmlDocPtr; const params: PPAnsiChar; const output: PAnsiChar; SAX: xmlSAXHandlerPtr; IObuf: xmlOutputBufferPtr; profile: PFILE; userCtxt: xsltTransformContextPtr) : Longint; cdecl; external LIBXSLT_SO;
   procedure xsltSaveProfiling (ctxt: xsltTransformContextPtr; output: PFILE); cdecl; external LIBXSLT_SO;
   function xsltSaveResultTo (buf: xmlOutputBufferPtr; result: xmlDocPtr; style: xsltStylesheetPtr) : Longint; cdecl; external LIBXSLT_SO;
   function xsltSaveResultToFd (fd: Longint; result: xmlDocPtr; style: xsltStylesheetPtr) : Longint; cdecl; external LIBXSLT_SO;
   function xsltSaveResultToFile (file_: PFILE; result: xmlDocPtr; style: xsltStylesheetPtr) : Longint; cdecl; external LIBXSLT_SO;
-  function xsltSaveResultToFilename (const URL: PChar; result: xmlDocPtr; style: xsltStylesheetPtr; compression: Longint) : Longint; cdecl; external LIBXSLT_SO;
+  function xsltSaveResultToFilename (const URL: PAnsiChar; result: xmlDocPtr; style: xsltStylesheetPtr; compression: Longint) : Longint; cdecl; external LIBXSLT_SO;
   function xsltSaveResultToString (doc_txt_ptr: xmlCharPtrPtr; doc_txt_len: PInteger; result: xmlDocPtr; style: xsltStylesheetPtr) : Longint; cdecl; external LIBXSLT_SO;
-  function xsltSecurityAllow (sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr; const value: PChar) : Longint; cdecl; external LIBXSLT_SO;
-  function xsltSecurityForbid (sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr; const value: PChar) : Longint; cdecl; external LIBXSLT_SO;
+  function xsltSecurityAllow (sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr; const value: PAnsiChar) : Longint; cdecl; external LIBXSLT_SO;
+  function xsltSecurityForbid (sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr; const value: PAnsiChar) : Longint; cdecl; external LIBXSLT_SO;
   function xsltSetCtxtParseOptions (ctxt: xsltTransformContextPtr; options: Longint) : Longint; cdecl; external LIBXSLT_SO;
   function xsltSetCtxtSecurityPrefs (sec: xsltSecurityPrefsPtr; ctxt: xsltTransformContextPtr) : Longint; cdecl; external LIBXSLT_SO;
   procedure xsltSetCtxtSortFunc (ctxt: xsltTransformContextPtr; handler: xsltSortFunc); cdecl; external LIBXSLT_SO;
@@ -1058,7 +1063,7 @@ exits}
   function xsltTimestamp () : Longint; cdecl; external LIBXSLT_SO;
   function xsltTransStorageAdd (ctxt: xsltTransformContextPtr; id: Pointer; data: Pointer) : Longint; cdecl; external LIBXSLT_SO;
   function xsltTransStorageRemove (ctxt: xsltTransformContextPtr; id: Pointer) : Pointer; cdecl; external LIBXSLT_SO;
-  procedure xsltTransformError (ctxt: xsltTransformContextPtr; style: xsltStylesheetPtr; node: xmlNodePtr; const msg: PChar); cdecl; varargs; external LIBXSLT_SO;
+  procedure xsltTransformError (ctxt: xsltTransformContextPtr; style: xsltStylesheetPtr; node: xmlNodePtr; const msg: PAnsiChar); cdecl; varargs; external LIBXSLT_SO;
   procedure xsltUninit (); cdecl; external LIBXSLT_SO;
   procedure xsltUnparsedEntityURIFunction (ctxt: xmlXPathParserContextPtr; nargs: Longint); cdecl; external LIBXSLT_SO;
   function xsltUnregisterExtModule (const URI: xmlCharPtr) : Longint; cdecl; external LIBXSLT_SO;
@@ -1075,7 +1080,7 @@ var
   __xslDebugStatus: PInteger;
 var
   __xsltDocDefaultLoader: xsltDocLoaderFuncPtr;
-  function xsltEngineVersion(): PChar;
+  function xsltEngineVersion(): PAnsiChar;
 var
   __xsltGenericDebug: xmlGenericErrorFuncPtr;
 var
@@ -1097,11 +1102,15 @@ implementation
 uses
 {$IFDEF WIN32}
   Windows,
+{$ELSE}
+  {$IFDEF WIN64}
+  Windows,
+  {$ENDIF}
 {$ENDIF}
   SysUtils, math;
 
 var
-  libHandle: THandle;
+  libHandle: {$ifdef FPC}TLibHandle{$else}THandle{$endif};
 
 // Utility function to make sure procedure entry points are not null
 
@@ -1112,9 +1121,9 @@ begin
 end;
 
 var
-   pxsltEngineVersion: PPChar;
+   pxsltEngineVersion: PPAnsiChar;
 
-function xsltEngineVersion: PChar;
+function xsltEngineVersion: PAnsiChar;
 begin
   CheckForNil(pxsltEngineVersion, 'xsltEngineVersion');
   Result := pxsltEngineVersion^;
@@ -1150,6 +1159,18 @@ begin
   SetExceptionMask(fpuExceptionMask);
 end;
 
+function xsltParseStylesheetFile (const filename: xmlCharPtr
+ ) : xsltStylesheetPtr;
+var
+  fpuExceptionMask: TFPUExceptionMask;
+begin
+  Result := nil;
+  fpuExceptionMask := GetExceptionMask;
+  SetExceptionMask([exInvalidOp, exZeroDivide]);
+  Result := __xsltParseStylesheetFile(filename);
+  SetExceptionMask(fpuExceptionMask);
+end;
+
 initialization
   // The Delphi 'external' directive can be used for functions and procedures,
   // but here we need to obtain the addresses of POINTERS to functions. We can
@@ -1160,7 +1181,7 @@ initialization
   begin
     __xslDebugStatus := PInteger(GetProcAddress(libHandle, 'xslDebugStatus'));
     __xsltDocDefaultLoader := xsltDocLoaderFuncPtr(GetProcAddress(libHandle, 'xsltDocDefaultLoader'));
-    pxsltEngineVersion := PPChar(GetProcAddress(libHandle, 'xsltEngineVersion'));
+    pxsltEngineVersion := PPAnsiChar(GetProcAddress(libHandle, 'xsltEngineVersion'));
     __xsltGenericDebug := xmlGenericErrorFuncPtr(GetProcAddress(libHandle, 'xsltGenericDebug'));
     __xsltGenericDebugContext := PPointer(GetProcAddress(libHandle, 'xsltGenericDebugContext'));
     __xsltGenericError := xmlGenericErrorFuncPtr(GetProcAddress(libHandle, 'xsltGenericError'));

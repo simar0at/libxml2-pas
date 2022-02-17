@@ -6,13 +6,13 @@ uses
   libxml2,
   SysUtils;
 
-function myParseFile(aFileName: PChar): xmlDocPtr;
+function myParseFile(aFileName: String): xmlDocPtr;
 var
   ctxt: xmlParserCtxtPtr;
 begin
   Result := nil;
   xmlInitParser();
-  ctxt := xmlCreateFileParserCtxt(aFileName);
+  ctxt := xmlCreateFileParserCtxt(PAnsiChar(UTF8Encode(aFileName)));
   if (ctxt = nil) then exit;
   xmlParseDocument(ctxt);
   if (ctxt.wellFormed<>0) then begin
@@ -30,7 +30,7 @@ var
   doc: xmlDocPtr;
 begin
   Write(aFilename, ': ');
-  doc := myParseFile(PChar(aFileName));
+  doc := myParseFile(aFileName);
   if (doc=nil) then begin
     WriteLN('File is NOT well-formed');
   end else begin

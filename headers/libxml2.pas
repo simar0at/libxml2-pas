@@ -13,7 +13,11 @@ const
 {$IFDEF WIN32}
   LIBXML2_SO = 'libxml2.dll';
 {$ELSE}
+  {$IFDEF WIN64}
+  LIBXML2_SO = 'libxml2.dll';
+  {$ELSE}
   LIBXML2_SO = 'libxml2';
+  {$ENDIF}
 {$ENDIF}
 
   XML_DETECT_IDS = 2;
@@ -4499,11 +4503,15 @@ implementation
 uses
 {$IFDEF WIN32}
   Windows,
+{$ELSE}
+  {$IFDEF WIN64}
+  Windows,
+  {$ENDIF}
 {$ENDIF}
   SysUtils, math;
 
 var
-  libHandle: TLibHandle;
+  libHandle: {$ifdef FPC}TLibHandle{$else}THandle{$endif};
 
 // Utility function to make sure procedure entry points are not null
 
